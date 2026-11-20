@@ -1697,3 +1697,20 @@ footer p, footer > small { color: #718b8b !important; }
     overscroll-behavior-x: contain !important;
   }
 }
+
+
+/* Header avatar: reuse the existing portfolio profile photo. */
+.logo {
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: relative !important;
+}
+.logo img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover !important;
+  object-position: center 13% !important;
+  border-radius: inherit !important;
+}
