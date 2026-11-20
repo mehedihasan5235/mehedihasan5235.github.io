@@ -168,6 +168,37 @@ if (!prefersReducedMotion && revealTargets.length) {
   }
 }
 
+// Mobile Skills cards autoplay slider.
+const skillsSlider = document.querySelector("#skills .cards");
+if (skillsSlider && !prefersReducedMotion) {
+  const mobileSlider = window.matchMedia("(max-width: 760px)");
+  let pauseUntil = 0;
+
+  const pauseSkillsSlider = () => {
+    pauseUntil = Date.now() + 5000;
+  };
+
+  ["touchstart", "pointerdown", "mouseenter", "focusin"].forEach((eventName) => {
+    skillsSlider.addEventListener(eventName, pauseSkillsSlider, { passive: true });
+  });
+
+  window.setInterval(() => {
+    if (!mobileSlider.matches || document.hidden || Date.now() < pauseUntil) return;
+
+    const cards = Array.from(skillsSlider.querySelectorAll("article"));
+    if (cards.length < 2) return;
+
+    const current = skillsSlider.scrollLeft;
+    const nextCard = cards.find((card) => card.offsetLeft > current + 8);
+
+    if (nextCard) {
+      skillsSlider.scrollTo({ left: nextCard.offsetLeft - cards[0].offsetLeft, behavior: "smooth" });
+    } else {
+      skillsSlider.scrollTo({ left: 0, behavior: "smooth" });
+    }
+  }, 3000);
+}
+
 // Subtle typewriter role rotation in the hero.
 const roleHeading = document.querySelector(".hero .intro h3");
 if (roleHeading) {
