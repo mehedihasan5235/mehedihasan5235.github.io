@@ -307,3 +307,37 @@ html{scroll-behavior:smooth}
     scroll-snap-align: start;
   }
 }
+
+
+/* Mobile Skills: show every card normally; no horizontal scrolling or marquee. */
+@media (max-width: 760px) {
+  #skills .cards {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    width: 100% !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: auto !important;
+    touch-action: auto !important;
+  }
+  #skills .skills-marquee-track {
+    display: contents !important;
+    transform: none !important;
+  }
+  #skills .skills-marquee-track article,
+  #skills .cards > article {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    flex: initial !important;
+    min-height: 0 !important;
+  }
+  #skills .skills-marquee-track article[aria-hidden="true"] {
+    display: none !important;
+  }
+  #skills .skills-marquee-progress {
+    display: none !important;
+  }
+}
