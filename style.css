@@ -47,3 +47,31 @@ nav a:hover,.social a{color:#008f88}
 footer{border-top-color:#dcebea}
 footer p,footer>small{color:#718b8b}
 @media(max-width:760px){nav{background:#f4fbfa;border-bottom-color:#dcebea}}
+
+/* Complete light mint / teal palette */
+body{background:#f4fbfa!important;color:#173536!important}
+header{background:rgba(244,251,250,.94)!important;border-bottom:1px solid #dcebea!important}
+nav a{color:#547171!important}nav a:hover{color:#079c93!important}
+.brand strong{color:#173536!important}.brand small{color:#668383!important}
+.hello{color:#547171!important}.hero h3{color:#244747!important}
+.desc,.split p,.section-title>p,.contact-box p{color:#607c7c!important}
+.outline{color:#285251!important;border-color:#b8d2d0!important}
+.stats small,.note{color:#718c8c!important}
+.portrait img{background:#d9f5f0!important;border:2px solid #42bdb3!important;box-shadow:0 0 0 9px #0da99f16,0 12px 45px #2b9e9525!important}
+.ring{border-color:#8fd7d1!important}
+.photo-label{background:#fff!important;border-color:#b6e2de!important;box-shadow:0 8px 24px #2b817b18!important;color:#079c93!important}
+.photo-label b{color:#234746!important}.photo-label small{color:#668383!important}
+.cards article{background:#fff!important;border-color:#deecea!important;box-shadow:0 8px 28px #285c5810!important}
+.cards h3,.split h3,.experience h2,.project h3{color:#244747!important}
+.cards p,.project p,.experience p{color:#668080!important}
+.symbol,.project>b{background:#e4f7f4!important;color:#078f87!important}
+.chips i{color:#496968!important;background:#eff8f7!important;border-color:#dcebea!important}
+.experience{border-color:#b9e2de!important;background:linear-gradient(105deg,#fff,#edf9f7)!important;box-shadow:0 8px 28px #285c580c!important}
+.experience>b{color:#079c93!important}.experience>span{border-color:#a9ddd8!important;color:#078f87!important}
+.project{border-color:#a9d9d4!important;background:#fff!important}
+.contact-box{background:radial-gradient(circle at 90% 10%,#c9f0eb,transparent 45%),#eaf8f6!important;border-color:#d5eae7!important}
+.contact-list>a{border-bottom-color:#dcebea!important}
+.contact-list small,footer p,footer>small{color:#718b8b!important}
+.contact-list b{color:#244747!important}.contact-list>a span,.social a{color:#079c93!important}
+footer{border-top-color:#dcebea!important}
+@media(max-width:760px){nav{background:#f4fbfa!important;border-bottom-color:#dcebea!important}nav a{color:#547171!important}}
