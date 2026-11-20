@@ -1,40 +1,137 @@
-const menu=document.querySelector(".toggle"),nav=document.querySelector("header nav");menu.addEventListener("click",()=>nav.classList.toggle("open"));document.querySelectorAll("nav a").forEach(a=>a.addEventListener("click",()=>nav.classList.remove("open")));document.getElementById("year").textContent=new Date().getFullYear();
+// Portfolio interactions
+const menu = document.querySelector(".toggle");
+const nav = document.querySelector("header nav");
 
-// Smooth reveal for sections and cards
-document.querySelectorAll("main .section, .cards article, .experience, .project, #contact .contact-intro, #contact .contact-panel").forEach((el)=>el.classList.add("reveal-on-scroll"));
-if("IntersectionObserver" in window){
-  const revealObserver=new IntersectionObserver((entries,observer)=>{
-    entries.forEach((entry)=>{
-      if(entry.isIntersecting){entry.target.classList.add("is-visible");observer.unobserve(entry.target);}
-    });
-  },{threshold:.12,rootMargin:"0px 0px -35px 0px"});
-  document.querySelectorAll(".reveal-on-scroll").forEach((el)=>revealObserver.observe(el));
-}else{
-  document.querySelectorAll(".reveal-on-scroll").forEach((el)=>el.classList.add("is-visible"));
+if (menu && nav) {
+  menu.addEventListener("click", () => nav.classList.toggle("open"));
+  document.querySelectorAll("nav a").forEach((link) => {
+    link.addEventListener("click", () => nav.classList.remove("open"));
+  });
 }
 
-// Subtle typewriter role rotation in the hero
-const roleHeading=document.querySelector(".hero .intro h3");
-if(roleHeading){
-  const roles=["Web Developer","WordPress Developer","Frontend Enthusiast","Digital Marketing Enthusiast"];
-  roleHeading.innerHTML='<span id="role-text">Web Developer</span> <i>·</i> WordPress <i>·</i> Digital Marketing';
-  const roleText=document.getElementById("role-text");
-  let roleIndex=0,charIndex=roles[0].length,deleting=false;
-  const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(!reducedMotion){
-    const typeNext=()=>{
-      const current=roles[roleIndex];
-      if(!deleting){
-        charIndex++;
-        roleText.textContent=current.slice(0,charIndex);
-        if(charIndex>=current.length){deleting=true;setTimeout(typeNext,1500);return;}
-      }else{
-        charIndex--;
-        roleText.textContent=current.slice(0,charIndex);
-        if(charIndex<=0){deleting=false;roleIndex=(roleIndex+1)%roles.length;}
+const year = document.getElementById("year");
+if (year) year.textContent = new Date().getFullYear();
+
+// Scroll-triggered reveals. Content remains visible if motion is reduced
+// or if the GSAP CDN is unavailable.
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const revealTargets = [
+  "#about > label",
+  "#about .split > *",
+  "#skills .section-title > *",
+  "#skills .cards article",
+  "#skills .note",
+  "#experience > label",
+  "#experience .experience > *",
+  "#projects .section-title > *",
+  "#projects .project > *",
+  "#contact .contact-intro > *",
+  "#contact .contact-panel > *"
+].flatMap((selector) => Array.from(document.querySelectorAll(selector)));
+
+if (!prefersReducedMotion && revealTargets.length) {
+  if (window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Only hide elements after GSAP is confirmed available, so a CDN failure
+    // can never leave portfolio content invisible.
+    revealTargets.forEach((element) => element.classList.add("reveal-on-scroll"));
+    gsap.set(revealTargets, { autoAlpha: 0, y: 22 });
+
+    ScrollTrigger.batch(revealTargets, {
+      start: "top 88%",
+      end: "bottom 12%",
+      once: false,
+      onEnter: (elements) => {
+        gsap.to(elements, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.68,
+          stagger: 0.11,
+          ease: "power2.out",
+          overwrite: true
+        });
+      },
+      onEnterBack: (elements) => {
+        gsap.to(elements, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.58,
+          stagger: 0.09,
+          ease: "power2.out",
+          overwrite: true
+        });
+      },
+      onLeaveBack: (elements) => {
+        gsap.to(elements, {
+          autoAlpha: 0,
+          y: 18,
+          duration: 0.32,
+          stagger: 0.05,
+          ease: "power1.in",
+          overwrite: true
+        });
       }
-      setTimeout(typeNext,deleting?42:78);
+    });
+
+    window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
+  } else if ("IntersectionObserver" in window) {
+    // Accessible fallback: reveal on entry and reset on exit for replay.
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        entry.target.classList.toggle("is-visible", entry.isIntersecting);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -35px 0px" });
+
+    revealTargets.forEach((element) => {
+      element.classList.add("reveal-on-scroll");
+      observer.observe(element);
+    });
+  }
+}
+
+// Subtle typewriter role rotation in the hero.
+const roleHeading = document.querySelector(".hero .intro h3");
+if (roleHeading) {
+  const roles = [
+    "Web Developer",
+    "WordPress Developer",
+    "Frontend Enthusiast",
+    "Digital Marketing Enthusiast"
+  ];
+
+  roleHeading.innerHTML = '<span id="role-text">Web Developer</span> <i>·</i> WordPress <i>·</i> Digital Marketing';
+  const roleText = document.getElementById("role-text");
+
+  if (!prefersReducedMotion && roleText) {
+    let roleIndex = 0;
+    let charIndex = roles[0].length;
+    let deleting = false;
+
+    const typeNext = () => {
+      const current = roles[roleIndex];
+
+      if (!deleting) {
+        charIndex++;
+        roleText.textContent = current.slice(0, charIndex);
+        if (charIndex >= current.length) {
+          deleting = true;
+          window.setTimeout(typeNext, 1500);
+          return;
+        }
+      } else {
+        charIndex--;
+        roleText.textContent = current.slice(0, charIndex);
+        if (charIndex <= 0) {
+          deleting = false;
+          roleIndex = (roleIndex + 1) % roles.length;
+        }
+      }
+
+      window.setTimeout(typeNext, deleting ? 42 : 78);
     };
-    setTimeout(typeNext,1300);
+
+    window.setTimeout(typeNext, 1300);
   }
 }
