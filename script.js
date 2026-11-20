@@ -168,35 +168,107 @@ if (!prefersReducedMotion && revealTargets.length) {
   }
 }
 
-// Mobile Skills cards autoplay slider.
-const skillsSlider = document.querySelector("#skills .cards");
-if (skillsSlider && !prefersReducedMotion) {
-  const mobileSlider = window.matchMedia("(max-width: 760px)");
-  let pauseUntil = 0;
 
-  const pauseSkillsSlider = () => {
-    pauseUntil = Date.now() + 5000;
-  };
+ // Continuous, seamless Skills marquee with synced progress and manual drag.
+const skillsViewport = document.querySelector("#skills .cards");
+if (skillsViewport) {
+  const originalCards = Array.from(skillsViewport.querySelectorAll(":scope > article"));
 
-  ["touchstart", "pointerdown", "mouseenter", "focusin"].forEach((eventName) => {
-    skillsSlider.addEventListener(eventName, pauseSkillsSlider, { passive: true });
-  });
+  if (originalCards.length > 1 && !prefersReducedMotion) {
+    const track = document.createElement("div");
+    track.className = "skills-marquee-track";
+    originalCards.forEach((card) => track.appendChild(card));
 
-  window.setInterval(() => {
-    if (!mobileSlider.matches || document.hidden || Date.now() < pauseUntil) return;
+    originalCards.forEach((card) => {
+      const clone = card.cloneNode(true);
+      clone.setAttribute("aria-hidden", "true");
+      track.appendChild(clone);
+    });
 
-    const cards = Array.from(skillsSlider.querySelectorAll("article"));
-    if (cards.length < 2) return;
+    skillsViewport.appendChild(track);
 
-    const current = skillsSlider.scrollLeft;
-    const nextCard = cards.find((card) => card.offsetLeft > current + 8);
+    const progress = document.createElement("div");
+    progress.className = "skills-marquee-progress";
+    progress.setAttribute("aria-hidden", "true");
+    progress.innerHTML = '<span></span>';
+    skillsViewport.insertAdjacentElement("afterend", progress);
+    const progressFill = progress.querySelector("span");
 
-    if (nextCard) {
-      skillsSlider.scrollTo({ left: nextCard.offsetLeft - cards[0].offsetLeft, behavior: "smooth" });
-    } else {
-      skillsSlider.scrollTo({ left: 0, behavior: "smooth" });
-    }
-  }, 3000);
+    let offset = 0;
+    let cycleWidth = 0;
+    let lastTime = 0;
+    let isPaused = false;
+    let isDragging = false;
+    let pointerStart = 0;
+    let offsetStart = 0;
+    const speed = 32;
+
+    const render = () => {
+      track.style.transform = "translate3d(" + (-offset) + "px, 0, 0)";
+      if (cycleWidth > 0) progressFill.style.transform = "scaleX(" + (offset / cycleWidth) + ")";
+    };
+
+    const measure = () => {
+      const firstClone = track.children[originalCards.length];
+      if (firstClone) {
+        cycleWidth = firstClone.offsetLeft - track.children[0].offsetLeft;
+        offset = cycleWidth ? offset % cycleWidth : 0;
+        render();
+      }
+    };
+
+    const animate = (time) => {
+      if (!lastTime) lastTime = time;
+      const delta = Math.min((time - lastTime) / 1000, 0.05);
+      lastTime = time;
+      if (!isPaused && !isDragging && cycleWidth > 0) {
+        offset = (offset + speed * delta) % cycleWidth;
+        render();
+      }
+      window.requestAnimationFrame(animate);
+    };
+
+    skillsViewport.addEventListener("mouseenter", () => { isPaused = true; });
+    skillsViewport.addEventListener("mouseleave", () => { isPaused = false; });
+    skillsViewport.addEventListener("focusin", () => { isPaused = true; });
+    skillsViewport.addEventListener("focusout", () => { isPaused = false; });
+
+    skillsViewport.addEventListener("pointerdown", (event) => {
+      isDragging = true;
+      pointerStart = event.clientX;
+      offsetStart = offset;
+      skillsViewport.classList.add("is-dragging");
+      skillsViewport.setPointerCapture(event.pointerId);
+    });
+
+    skillsViewport.addEventListener("pointermove", (event) => {
+      if (!isDragging) return;
+      const distance = event.clientX - pointerStart;
+      offset = ((offsetStart - distance) % cycleWidth + cycleWidth) % cycleWidth;
+      render();
+    });
+
+    const endDrag = () => {
+      if (!isDragging) return;
+      isDragging = false;
+      skillsViewport.classList.remove("is-dragging");
+    };
+    skillsViewport.addEventListener("pointerup", endDrag);
+    skillsViewport.addEventListener("pointercancel", endDrag);
+    skillsViewport.addEventListener("lostpointercapture", endDrag);
+
+    document.addEventListener("visibilitychange", () => {
+      lastTime = 0;
+      isPaused = document.hidden;
+    });
+
+    measure();
+    if ("ResizeObserver" in window) new ResizeObserver(measure).observe(skillsViewport);
+    else window.addEventListener("resize", measure);
+    window.requestAnimationFrame(animate);
+  } else {
+    skillsViewport.classList.add("skills-static-track");
+  }
 }
 
 // Subtle typewriter role rotation in the hero.
