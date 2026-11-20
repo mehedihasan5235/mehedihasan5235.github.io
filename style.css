@@ -341,3 +341,86 @@ html{scroll-behavior:smooth}
     display: none !important;
   }
 }
+
+
+/* Skills carousel: autoplay on mobile only; desktop remains a normal grid. */
+@media (min-width: 761px) {
+  #skills .cards {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    overflow: visible !important;
+    width: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: auto !important;
+    touch-action: auto !important;
+  }
+  #skills .cards > article,
+  #skills .skills-marquee-track article {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    flex: initial !important;
+  }
+  #skills .skills-marquee-track { display: contents !important; transform: none !important; }
+  #skills .skills-marquee-track article[aria-hidden="true"],
+  #skills .skills-marquee-progress { display: none !important; }
+}
+@media (max-width: 760px) {
+  #skills .cards {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    padding: 3px 2px 12px !important;
+    margin: 0 !important;
+    cursor: grab !important;
+    touch-action: pan-y !important;
+    scrollbar-width: none !important;
+  }
+  #skills .cards::-webkit-scrollbar { display: none !important; }
+  #skills .cards.is-dragging { cursor: grabbing !important; }
+  #skills .skills-marquee-track {
+    display: flex !important;
+    align-items: stretch !important;
+    width: max-content !important;
+    gap: 13px !important;
+    will-change: transform;
+  }
+  #skills .skills-marquee-track article {
+    flex: 0 0 min(82vw, 310px) !important;
+    width: min(82vw, 310px) !important;
+    min-width: min(82vw, 310px) !important;
+    min-height: 220px !important;
+    max-width: none !important;
+    scroll-snap-align: none !important;
+    user-select: none;
+  }
+  #skills .skills-marquee-track article[aria-hidden="true"] { display: block !important; }
+  #skills .skills-marquee-progress {
+    display: block !important;
+    height: 3px !important;
+    width: 100% !important;
+    margin-top: 8px !important;
+    overflow: hidden !important;
+    border-radius: 10px !important;
+    background: #dcebea !important;
+  }
+  #skills .skills-marquee-progress span {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: inherit !important;
+    background: linear-gradient(90deg, #079c93, #16d5c7) !important;
+    transform: scaleX(0);
+    transform-origin: left center;
+    will-change: transform;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #skills .cards.skills-static-track {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    overflow: visible !important;
+  }
+}
