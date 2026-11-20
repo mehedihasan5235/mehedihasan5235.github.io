@@ -1103,3 +1103,166 @@ footer p, footer > small { color: #718b8b !important; }
   footer p, footer > small { color: #718b8b !important; }
 }
 
+
+
+/* Reference image — precise desktop composition for the marked areas.
+   Kept separate from existing rules so original content and interactions remain. */
+@media (min-width: 761px) {
+  /* Use the wide canvas seen in the reference instead of the previous narrow
+     max-width container, which pulled every section toward the center. */
+  .wrap {
+    width: 83% !important;
+    max-width: none !important;
+  }
+
+  header {
+    height: 74px !important;
+    padding-inline: 5.4% !important;
+  }
+
+  .hero {
+    min-height: 660px !important;
+    grid-template-columns: minmax(0, 1.22fr) minmax(480px, .78fr) !important;
+    gap: 24px !important;
+    padding: 30px 0 64px !important;
+    overflow: visible !important;
+  }
+
+  /* Large curved teal panel entering from the upper-right corner. */
+  .hero:before {
+    width: 890px !important;
+    height: 760px !important;
+    top: -245px !important;
+    right: -34vw !important;
+    border-radius: 0 0 0 58% !important;
+    background:
+      radial-gradient(ellipse at 42% 48%, rgba(42,211,198,.23), transparent 60%),
+      linear-gradient(135deg, transparent 28%, rgba(16,185,174,.10) 29%, rgba(16,185,174,.04) 57%, transparent 58%) !important;
+    transform: rotate(-8deg) !important;
+  }
+
+  .hero:after {
+    width: 520px !important;
+    height: 110px !important;
+    top: auto !important;
+    bottom: 16px !important;
+    right: -20vw !important;
+    border-top: 0 !important;
+    border-bottom: 0 !important;
+    border-radius: 0 !important;
+    background:
+      radial-gradient(circle, #08a99f 2px, transparent 2.6px) 0 0 / 18px 18px;
+    transform: none !important;
+  }
+
+  .hero .intro { min-width: 0; }
+  .hero h1 {
+    font-size: clamp(64px, 5.7vw, 88px) !important;
+    letter-spacing: -4.7px !important;
+  }
+
+  /* Three metric blocks, including the vertical separators in the reference. */
+  .stats {
+    align-items: flex-start !important;
+    gap: 0 !important;
+    margin-top: 43px !important;
+  }
+  .stats > div {
+    width: 155px;
+    min-width: 0 !important;
+    padding: 30px 22px 0 0 !important;
+    margin-right: 22px;
+    border-right: 1px solid #d6e6e4;
+  }
+  .stats > div:last-child {
+    border-right: 0;
+    margin-right: 0;
+  }
+  .stats > div:before {
+    font-size: 29px !important;
+    line-height: 1 !important;
+    top: -1px !important;
+  }
+  .stats > div:nth-child(1):before { content: "▣" !important; }
+  .stats > div:nth-child(2):before { content: "</>" !important; font-size: 25px !important; }
+  .stats > div:nth-child(3):before { content: "♧" !important; font-size: 29px !important; }
+  .stats b { font-size: 31px !important; line-height: 1.1 !important; }
+  .stats small { margin-top: 6px !important; white-space: nowrap; }
+
+  /* Restore the reference's large, single circular portrait and concentric
+     frame; keep the existing assets/profile.jpg untouched. */
+  .portrait {
+    height: 520px !important;
+    min-width: 0;
+    background:
+      radial-gradient(circle, rgba(7,159,150,.9) 1.8px, transparent 2.2px) 2% 4% / 18px 18px no-repeat,
+      radial-gradient(circle, rgba(7,159,150,.9) 1.8px, transparent 2.2px) 96% 91% / 18px 18px no-repeat;
+  }
+  .portrait:before {
+    width: 390px !important;
+    height: 390px !important;
+    background: radial-gradient(circle at 48% 38%, #9cebe2 0%, #4bd4c8 55%, #16b9ae 100%) !important;
+  }
+  .portrait:after {
+    width: 460px !important;
+    height: 460px !important;
+    border: 1px solid rgba(22,181,171,.48) !important;
+    box-shadow: inset 0 0 0 16px rgba(255,255,255,.30) !important;
+  }
+  .portrait .ring {
+    width: 420px !important;
+    height: 420px !important;
+    border: 2px solid #18bdb2 !important;
+    box-shadow: 0 0 0 9px rgba(13,169,159,.07) !important;
+  }
+  .portrait img {
+    display: block !important;
+    width: 390px !important;
+    height: 390px !important;
+    max-width: none !important;
+    object-fit: cover !important;
+    object-position: center 16% !important;
+    border-radius: 50% !important;
+    border: 2px solid rgba(7,159,150,.58) !important;
+    background: linear-gradient(160deg,#b9f0e9,#36c9bd) !important;
+    box-shadow: 0 0 0 8px rgba(255,255,255,.82), 0 12px 40px rgba(15,117,111,.15) !important;
+  }
+  .photo-label {
+    left: 0 !important;
+    bottom: 28px !important;
+    z-index: 4 !important;
+  }
+
+  /* Wavy mint transition and teal corner shapes at the start of About. */
+  #about {
+    padding-top: 62px !important;
+    margin-top: 0 !important;
+    isolation: isolate;
+  }
+  #about:before {
+    top: -5px !important;
+    height: calc(100% + 80px) !important;
+    background:
+      linear-gradient(180deg, rgba(226,247,244,.82), rgba(245,251,250,.20)) !important;
+    clip-path: polygon(
+      0 2%, 5% 0, 13% 3%, 22% 5%, 31% 5%, 40% 3%,
+      49% 0, 58% 1%, 68% 0, 78% 2%, 88% 5%, 96% 8%, 100% 7%,
+      100% 100%, 0 100%
+    ) !important;
+  }
+  #about:after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    left: -9vw;
+    bottom: -75px;
+    width: 360px;
+    height: 260px;
+    background: linear-gradient(135deg, #19c9bb 0%, #07a99f 70%);
+    border-radius: 0 100% 0 0 / 0 90% 0 0;
+    clip-path: polygon(0 0, 14% 9%, 30% 18%, 40% 39%, 48% 66%, 63% 100%, 0 100%);
+    opacity: .95;
+  }
+  #about .split { margin-top: 28px !important; }
+}
