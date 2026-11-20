@@ -185,3 +185,22 @@ html{scroll-behavior:smooth}
   *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
   .reveal-on-scroll{opacity:1;transform:none}
 }
+
+
+/* Hero name typewriter cursor */
+#name-first, #name-last{white-space:nowrap}
+#name-first.typing-cursor::after,
+#name-last.typing-cursor::after{
+  content:"";
+  display:inline-block;
+  width:2px;
+  height:.82em;
+  margin-left:4px;
+  vertical-align:-.04em;
+  background:#0b9d93;
+  animation:nameCaret .8s steps(2,start) infinite;
+}
+@keyframes nameCaret{to{visibility:hidden}}
+@media(prefers-reduced-motion:reduce){
+  #name-first.typing-cursor::after,#name-last.typing-cursor::after{animation:none}
+}
