@@ -1320,3 +1320,307 @@ footer p, footer > small { color: #718b8b !important; }
     pointer-events: none;
   }
 }
+
+
+/* Mobile reference layout — portrait-first composition.
+   This overrides only the mobile presentation; all original content,
+   animations, navigation behavior and the Skills horizontal marquee remain. */
+@media (max-width: 760px) {
+  html, body {
+    background: #f4fbfa !important;
+    color: #173536 !important;
+    overflow-x: hidden !important;
+  }
+  body {
+    background:
+      radial-gradient(ellipse 180px 230px at 96% 18%, rgba(67,218,204,.17), transparent 72%),
+      radial-gradient(ellipse 140px 170px at 0% 48%, rgba(42,205,190,.11), transparent 72%),
+      #f4fbfa !important;
+  }
+  header {
+    height: 64px !important;
+    padding: 0 18px !important;
+    background: rgba(247,252,251,.96) !important;
+    border-bottom: 1px solid #dcebea !important;
+    backdrop-filter: blur(14px);
+  }
+  header .brand { gap: 9px !important; }
+  header .logo {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 11px !important;
+    font-size: 22px !important;
+    background: linear-gradient(145deg,#a8eee5,#39c2b7) !important;
+    color: #123d3b !important;
+    box-shadow: 0 5px 14px rgba(36,177,166,.16) !important;
+  }
+  header .brand strong { color: #173536 !important; font-size: 13px !important; }
+  header .brand small { color: #6b8887 !important; font-size: 8px !important; }
+  header .toggle { color: #079f96 !important; }
+
+  .wrap { width: calc(100% - 36px) !important; max-width: none !important; }
+  .hero {
+    display: grid !important;
+    grid-template-columns: minmax(0,1fr) !important;
+    align-items: start !important;
+    gap: 0 !important;
+    min-height: 0 !important;
+    padding: 8px 0 52px !important;
+    position: relative !important;
+    isolation: isolate;
+    background: none !important;
+  }
+  .hero:before {
+    content: "" !important;
+    display: block !important;
+    position: absolute !important;
+    z-index: -2 !important;
+    width: 310px !important;
+    height: 320px !important;
+    top: -36px !important;
+    right: -125px !important;
+    border-radius: 0 0 0 65% !important;
+    background: radial-gradient(ellipse at 45% 45%,rgba(54,211,199,.17),rgba(54,211,199,.06) 58%,transparent 72%) !important;
+    transform: none !important;
+    pointer-events: none !important;
+  }
+  .hero:after { display: none !important; }
+
+  .hero .portrait {
+    grid-row: 1 !important;
+    grid-column: 1 !important;
+    width: 100% !important;
+    height: 282px !important;
+    min-height: 0 !important;
+    margin: 0 auto 22px !important;
+    display: grid !important;
+    place-items: center !important;
+    position: relative !important;
+    overflow: visible !important;
+    background: none !important;
+    isolation: isolate;
+  }
+  .portrait:before {
+    content: "" !important;
+    display: block !important;
+    width: 244px !important;
+    height: 244px !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle at 48% 38%,#a4eee5 0%,#55d8cc 56%,#20bdb2 100%) !important;
+    box-shadow: 0 0 0 8px rgba(13,169,159,.07),0 14px 36px rgba(18,151,142,.12) !important;
+  }
+  .portrait:after {
+    content: "" !important;
+    display: block !important;
+    width: 278px !important;
+    height: 278px !important;
+    border: 1px solid rgba(22,181,171,.43) !important;
+    border-radius: 50% !important;
+    box-shadow: inset 0 0 0 10px rgba(255,255,255,.24) !important;
+  }
+  .portrait .ring {
+    display: block !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%,-50%) !important;
+    width: 258px !important;
+    height: 258px !important;
+    border: 2px solid rgba(7,159,150,.72) !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 0 6px rgba(13,169,159,.07) !important;
+  }
+  .portrait .ring:before,
+  .portrait .ring:after { display: none !important; }
+  .portrait img {
+    display: block !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%,-50%) !important;
+    width: 238px !important;
+    height: 238px !important;
+    max-width: none !important;
+    object-fit: cover !important;
+    object-position: center 13% !important;
+    border-radius: 50% !important;
+    border: 2px solid rgba(7,159,150,.58) !important;
+    background: linear-gradient(160deg,#b9f0e9,#36c9bd) !important;
+    box-shadow: 0 0 0 6px rgba(255,255,255,.78),0 10px 28px rgba(15,117,111,.13) !important;
+  }
+  .photo-label {
+    position: absolute !important;
+    z-index: 5 !important;
+    left: max(0px, calc(50% - 145px)) !important;
+    bottom: 0 !important;
+    padding: 10px 13px !important;
+    min-width: 164px !important;
+    border-radius: 12px !important;
+    background: rgba(255,255,255,.97) !important;
+    border: 1px solid #b7e3de !important;
+    box-shadow: 0 8px 22px rgba(38,117,111,.12) !important;
+    color: #079c93 !important;
+    font-size: 10px !important;
+  }
+  .photo-label b { color: #244747 !important; font-size: 10px !important; }
+  .photo-label small { color: #718d8c !important; font-size: 8px !important; }
+
+  .hero .intro {
+    grid-row: 2 !important;
+    grid-column: 1 !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+  .eyebrow {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 9px 13px !important;
+    margin: 0 0 20px !important;
+    border: 1px solid #9cddd6 !important;
+    border-radius: 24px !important;
+    background: #e8f8f5 !important;
+    color: #078f87 !important;
+    font-size: 8px !important;
+    letter-spacing: 1.7px !important;
+  }
+  .hello {
+    color: #587675 !important;
+    font-size: 21px !important;
+    line-height: 1.25 !important;
+    margin: 0 0 3px !important;
+  }
+  .hero .intro h1 {
+    color: #142f31 !important;
+    font-size: clamp(24px,7.5vw,31px) !important;
+    line-height: 1.12 !important;
+    letter-spacing: -1.6px !important;
+    margin: 0 0 14px !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+  }
+  .hero .intro h1 em { color: #079f96 !important; }
+  .hero .intro h3 {
+    color: #244747 !important;
+    font-size: 11px !important;
+    line-height: 1.55 !important;
+    font-weight: 800 !important;
+    margin: 0 0 16px !important;
+  }
+  .hero .intro h3 i { color: #0da99f !important; margin: 0 5px !important; }
+  .desc {
+    max-width: none !important;
+    color: #658181 !important;
+    font-size: 11px !important;
+    line-height: 1.78 !important;
+    margin: 0 0 20px !important;
+  }
+  .actions {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+  .actions .btn {
+    min-height: 39px !important;
+    padding: 11px 14px !important;
+    border-radius: 24px !important;
+    font-size: 9px !important;
+    white-space: nowrap !important;
+  }
+  .primary {
+    background: linear-gradient(105deg,#0aa99f,#10b9ad) !important;
+    color: #fff !important;
+    box-shadow: 0 8px 20px rgba(13,169,159,.20) !important;
+  }
+  .outline {
+    background: rgba(255,255,255,.65) !important;
+    border: 1px solid #b8d8d4 !important;
+    color: #315957 !important;
+  }
+
+  .stats {
+    display: grid !important;
+    grid-template-columns: repeat(3,minmax(0,1fr)) !important;
+    align-items: start !important;
+    gap: 8px !important;
+    margin-top: 31px !important;
+    width: 100% !important;
+  }
+  .stats > div {
+    min-width: 0 !important;
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .stats > div:before { display: none !important; }
+  .stats b {
+    color: #1d4140 !important;
+    font-size: 16px !important;
+    line-height: 1.2 !important;
+    margin: 0 0 5px !important;
+  }
+  .stats small {
+    color: #728e8d !important;
+    font-size: 7px !important;
+    line-height: 1.35 !important;
+    white-space: nowrap !important;
+    margin: 0 !important;
+  }
+
+  .section { padding: 58px 0 35px !important; }
+  #about {
+    position: relative !important;
+    isolation: isolate !important;
+    padding-top: 62px !important;
+    margin-top: 0 !important;
+  }
+  #about:before {
+    content: "" !important;
+    display: block !important;
+    position: absolute !important;
+    z-index: -1 !important;
+    top: -2px !important;
+    left: 50% !important;
+    width: 100vw !important;
+    height: calc(100% + 30px) !important;
+    transform: translateX(-50%) !important;
+    background: linear-gradient(180deg,rgba(226,247,244,.88),rgba(245,251,250,.22)) !important;
+    clip-path: polygon(0 2%,10% 0,23% 2%,37% 4%,51% 1%,65% 0,80% 2%,92% 4%,100% 3%,100% 100%,0 100%) !important;
+  }
+  #about:after { display: none !important; }
+  #about > label, .section label { color: #078f87 !important; }
+  .split {
+    display: grid !important;
+    grid-template-columns: minmax(0,1fr) !important;
+    gap: 18px !important;
+    margin-top: 22px !important;
+  }
+  .split h2, .section-title h2, .contact h2 {
+    color: #173536 !important;
+    font-size: clamp(30px,8vw,38px) !important;
+    letter-spacing: -1.4px !important;
+  }
+  .split h2 em, .section-title h2 em, .contact h2 em { color: #079f96 !important; }
+  .split h3 { color: #315655 !important; font-size: 14px !important; line-height: 1.6 !important; }
+  .split p, .section-title > p { color: #668181 !important; font-size: 12px !important; line-height: 1.75 !important; }
+
+  /* Preserve the existing Skills track, horizontal scrolling and animation. */
+  #skills .cards,
+  #skills .skills-marquee-track,
+  #skills .skills-marquee-progress { }
+}
+
+@media (max-width: 380px) {
+  .wrap { width: calc(100% - 20px) !important; }
+  .hero .portrait { height: 282px !important; }
+  .hero .intro h1 { font-size: clamp(23px,7.3vw,27px) !important; }
+  .actions { gap: 8px !important; }
+  .actions .btn { padding: 10px 12px !important; font-size: 8.5px !important; }
+  .stats { gap: 5px !important; }
+  .stats small { font-size: 6.5px !important; }
+}
