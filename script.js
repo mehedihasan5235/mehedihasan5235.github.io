@@ -169,13 +169,13 @@ if (!prefersReducedMotion && revealTargets.length) {
 }
 
 
-// Mobile-only, continuous Skills autoplay carousel.
+// Mobile-only Skills carousel using native horizontal scrolling.
 const skillsViewport = document.querySelector("#skills .cards");
 if (skillsViewport) {
   const mobileSkills = window.matchMedia("(max-width: 760px)");
   const originalCards = Array.from(skillsViewport.querySelectorAll(":scope > article"));
 
-  if (!mobileSkills.matches || prefersReducedMotion || originalCards.length < 2) {
+  if (!mobileSkills.matches || originalCards.length < 2) {
     skillsViewport.classList.add("skills-static-track");
   } else {
     const track = document.createElement("div");
@@ -195,62 +195,47 @@ if (skillsViewport) {
     skillsViewport.insertAdjacentElement("afterend", progress);
     const progressFill = progress.querySelector("span");
 
-    let offset = 0, cycleWidth = 0, lastTime = 0;
-    let isPaused = false, isDragging = false, pointerStart = 0, offsetStart = 0;
-    const speed = 24;
+    let cycleWidth = 0;
+    let lastTime = 0;
+    let isPaused = false;
+    const speed = 28;
 
-    const render = () => {
-      track.style.transform = "translate3d(" + (-offset) + "px, 0, 0)";
-      if (cycleWidth > 0) progressFill.style.transform = "scaleX(" + (offset / cycleWidth) + ")";
+    const updateProgress = () => {
+      const progressValue = cycleWidth > 0 ? Math.min(skillsViewport.scrollLeft / cycleWidth, 1) : 0;
+      progressFill.style.transform = "scaleX(" + progressValue + ")";
     };
     const measure = () => {
       const firstClone = track.children[originalCards.length];
       if (firstClone) {
         cycleWidth = firstClone.offsetLeft - track.children[0].offsetLeft;
-        offset = cycleWidth ? offset % cycleWidth : 0;
-        render();
+        updateProgress();
       }
     };
     const animate = (time) => {
       if (!lastTime) lastTime = time;
       const delta = Math.min((time - lastTime) / 1000, 0.05);
       lastTime = time;
-      if (!isPaused && !isDragging && cycleWidth > 0) {
-        offset = (offset + speed * delta) % cycleWidth;
-        render();
+
+      if (!isPaused && !document.hidden && cycleWidth > 0) {
+        skillsViewport.scrollLeft += speed * delta;
+        if (skillsViewport.scrollLeft >= cycleWidth) {
+          skillsViewport.scrollLeft -= cycleWidth;
+        }
+        updateProgress();
       }
       window.requestAnimationFrame(animate);
     };
 
-    skillsViewport.addEventListener("pointerdown", (event) => {
-      isPaused = true;
-      isDragging = true;
-      pointerStart = event.clientX;
-      offsetStart = offset;
-      skillsViewport.classList.add("is-dragging");
-      skillsViewport.setPointerCapture(event.pointerId);
-    });
-    skillsViewport.addEventListener("pointermove", (event) => {
-      if (!isDragging || !cycleWidth) return;
-      const distance = event.clientX - pointerStart;
-      offset = ((offsetStart - distance) % cycleWidth + cycleWidth) % cycleWidth;
-      render();
-    });
-    const endDrag = () => {
-      if (!isDragging) return;
-      isDragging = false;
-      isPaused = false;
-      skillsViewport.classList.remove("is-dragging");
-    };
-    skillsViewport.addEventListener("pointerup", endDrag);
-    skillsViewport.addEventListener("pointercancel", endDrag);
-    skillsViewport.addEventListener("lostpointercapture", endDrag);
+    skillsViewport.addEventListener("scroll", updateProgress, { passive: true });
+    skillsViewport.addEventListener("touchstart", () => { isPaused = true; }, { passive: true });
+    skillsViewport.addEventListener("touchend", () => { isPaused = false; }, { passive: true });
+    skillsViewport.addEventListener("touchcancel", () => { isPaused = false; }, { passive: true });
+    skillsViewport.addEventListener("pointerdown", () => { isPaused = true; });
+    window.addEventListener("pointerup", () => { isPaused = false; });
+    window.addEventListener("pointercancel", () => { isPaused = false; });
     skillsViewport.addEventListener("mouseenter", () => { isPaused = true; });
-    skillsViewport.addEventListener("mouseleave", () => { if (!isDragging) isPaused = false; });
-    document.addEventListener("visibilitychange", () => {
-      lastTime = 0;
-      isPaused = document.hidden;
-    });
+    skillsViewport.addEventListener("mouseleave", () => { isPaused = false; });
+    document.addEventListener("visibilitychange", () => { lastTime = 0; });
 
     measure();
     if ("ResizeObserver" in window) new ResizeObserver(measure).observe(skillsViewport);
