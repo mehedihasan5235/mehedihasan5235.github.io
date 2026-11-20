@@ -234,3 +234,76 @@ html{scroll-behavior:smooth}
     letter-spacing: -1.5px !important;
   }
 }
+
+
+/* Skills continuous marquee carousel */
+#skills .cards {
+  display: block !important;
+  position: relative;
+  overflow: hidden !important;
+  width: 100%;
+  padding: 3px 2px 16px;
+  margin: 0;
+  cursor: grab;
+  touch-action: pan-y;
+  scrollbar-width: none;
+}
+#skills .cards::-webkit-scrollbar { display: none; }
+#skills .cards.is-dragging { cursor: grabbing; }
+#skills .skills-marquee-track {
+  display: flex;
+  align-items: stretch;
+  width: max-content;
+  gap: 14px;
+  will-change: transform;
+}
+#skills .skills-marquee-track article {
+  flex: 0 0 270px;
+  width: 270px;
+  min-height: 220px;
+  scroll-snap-align: none;
+  user-select: none;
+}
+#skills .skills-marquee-progress {
+  height: 3px;
+  width: 100%;
+  margin-top: 7px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #dcebea;
+}
+#skills .skills-marquee-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #079c93, #16d5c7);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+@media (max-width: 760px) {
+  #skills .cards {
+    display: block !important;
+    overflow: hidden !important;
+    margin-right: 0;
+    padding-right: 2px;
+  }
+  #skills .skills-marquee-track { gap: 13px; }
+  #skills .skills-marquee-track article {
+    flex-basis: min(82vw, 310px);
+    width: min(82vw, 310px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #skills .cards.skills-static-track {
+    display: flex !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory;
+    cursor: auto;
+  }
+  #skills .cards.skills-static-track > article {
+    flex: 0 0 min(82vw, 310px);
+    scroll-snap-align: start;
+  }
+}
