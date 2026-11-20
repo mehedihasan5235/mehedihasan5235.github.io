@@ -169,12 +169,15 @@ if (!prefersReducedMotion && revealTargets.length) {
 }
 
 
- // Continuous, seamless Skills marquee with synced progress and manual drag.
+ // Continuous, seamless Skills marquee on desktop only. Mobile keeps a normal card list.
 const skillsViewport = document.querySelector("#skills .cards");
 if (skillsViewport) {
+  const mobileSkills = window.matchMedia("(max-width: 760px)");
   const originalCards = Array.from(skillsViewport.querySelectorAll(":scope > article"));
 
-  if (originalCards.length > 1 && !prefersReducedMotion) {
+  if (mobileSkills.matches || prefersReducedMotion || originalCards.length < 2) {
+    skillsViewport.classList.add("skills-static-track");
+  } else {
     const track = document.createElement("div");
     track.className = "skills-marquee-track";
     originalCards.forEach((card) => track.appendChild(card));
@@ -184,7 +187,6 @@ if (skillsViewport) {
       clone.setAttribute("aria-hidden", "true");
       track.appendChild(clone);
     });
-
     skillsViewport.appendChild(track);
 
     const progress = document.createElement("div");
@@ -232,7 +234,6 @@ if (skillsViewport) {
     skillsViewport.addEventListener("mouseleave", () => { isPaused = false; });
     skillsViewport.addEventListener("focusin", () => { isPaused = true; });
     skillsViewport.addEventListener("focusout", () => { isPaused = false; });
-
     skillsViewport.addEventListener("pointerdown", (event) => {
       isDragging = true;
       pointerStart = event.clientX;
@@ -240,14 +241,12 @@ if (skillsViewport) {
       skillsViewport.classList.add("is-dragging");
       skillsViewport.setPointerCapture(event.pointerId);
     });
-
     skillsViewport.addEventListener("pointermove", (event) => {
       if (!isDragging) return;
       const distance = event.clientX - pointerStart;
       offset = ((offsetStart - distance) % cycleWidth + cycleWidth) % cycleWidth;
       render();
     });
-
     const endDrag = () => {
       if (!isDragging) return;
       isDragging = false;
@@ -256,7 +255,6 @@ if (skillsViewport) {
     skillsViewport.addEventListener("pointerup", endDrag);
     skillsViewport.addEventListener("pointercancel", endDrag);
     skillsViewport.addEventListener("lostpointercapture", endDrag);
-
     document.addEventListener("visibilitychange", () => {
       lastTime = 0;
       isPaused = document.hidden;
@@ -266,8 +264,6 @@ if (skillsViewport) {
     if ("ResizeObserver" in window) new ResizeObserver(measure).observe(skillsViewport);
     else window.addEventListener("resize", measure);
     window.requestAnimationFrame(animate);
-  } else {
-    skillsViewport.classList.add("skills-static-track");
   }
 }
 
