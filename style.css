@@ -153,3 +153,35 @@ footer{border-top-color:#dcebea!important}
 #contact .contact-social-links a span{font-size:12px}
 @media(max-width:760px){#contact.section.contact.wrap{grid-template-columns:1fr!important;gap:22px!important;padding:62px 0 75px!important}#contact .contact-intro{padding:27px 22px!important;border-radius:23px!important}#contact .contact-intro h2{font-size:36px!important;letter-spacing:-1.5px!important}#contact .contact-panel{padding:23px 19px!important;border-radius:22px!important}#contact .contact-row{margin-left:-7px!important;margin-right:-7px!important}}
 @media(prefers-reduced-motion:reduce){#contact .contact-main-cta,#contact .contact-row,#contact .contact-social-links a{transition:none!important}}
+
+
+/* Premium motion layer */
+html{scroll-behavior:smooth}
+.hero .intro{animation:heroEnter .85s cubic-bezier(.2,.7,.2,1) both}
+.portrait{animation:portraitEnter 1s .12s ease both}
+.portrait .ring{animation:orbitSlow 34s linear infinite}
+.portrait img{animation:portraitFloat 6s ease-in-out infinite}
+.photo-label{animation:labelFloat 5s ease-in-out infinite}
+@keyframes heroEnter{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes portraitEnter{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes orbitSlow{to{transform:rotate(360deg)}}
+@keyframes portraitFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes labelFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.reveal-on-scroll{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal-on-scroll.is-visible{opacity:1;transform:translateY(0)}
+.cards article{transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}
+.cards article:hover{transform:translateY(-7px);box-shadow:0 16px 34px #285c5818!important}
+.btn,.talk{transition:transform .22s ease,box-shadow .22s ease,background .22s ease}
+.btn:hover,.talk:hover{transform:translateY(-3px)}
+.hero h3 #role-text{color:#078f87}
+.hero h3 #role-text:after{content:"";display:inline-block;width:2px;height:1em;margin-left:4px;vertical-align:-2px;background:#0da99f;animation:caretBlink .8s steps(2,start) infinite}
+@keyframes caretBlink{to{visibility:hidden}}
+@media(max-width:760px){
+  .cards{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:13px;padding:3px 2px 16px;margin-right:-5.5%;padding-right:5.5%;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:#9bd9d2 transparent}
+  .cards article{flex:0 0 min(82vw,310px);scroll-snap-align:start;min-height:220px}
+  .cards::-webkit-scrollbar{height:4px}.cards::-webkit-scrollbar-thumb{background:#9bd9d2;border-radius:10px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+  .reveal-on-scroll{opacity:1;transform:none}
+}
