@@ -12,6 +12,47 @@ if (menu && nav) {
 const year = document.getElementById("year");
 if (year) year.textContent = new Date().getFullYear();
 
+// Type the hero name once on page load.
+const nameFirst = document.getElementById("name-first");
+const nameLast = document.getElementById("name-last");
+
+if (!prefersReducedMotion && nameFirst && nameLast) {
+  const firstName = nameFirst.textContent;
+  const lastName = nameLast.textContent;
+  nameFirst.textContent = "";
+  nameLast.textContent = "";
+  nameFirst.classList.add("typing-cursor");
+
+  let firstIndex = 0;
+  let lastIndex = 0;
+
+  const typeName = () => {
+    if (firstIndex < firstName.length) {
+      nameFirst.textContent += firstName.charAt(firstIndex++);
+      window.setTimeout(typeName, 105);
+      return;
+    }
+
+    if (nameFirst.classList.contains("typing-cursor")) {
+      nameFirst.classList.remove("typing-cursor");
+      nameLast.classList.add("typing-cursor");
+      window.setTimeout(typeName, 230);
+      return;
+    }
+
+    if (lastIndex < lastName.length) {
+      nameLast.textContent += lastName.charAt(lastIndex++);
+      window.setTimeout(typeName, 115);
+      return;
+    }
+
+    nameLast.classList.remove("typing-cursor");
+  };
+
+  window.setTimeout(typeName, 420);
+}
+
+
 // Scroll-triggered reveals. Content remains visible if motion is reduced
 // or if the GSAP CDN is unavailable.
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -89,46 +130,6 @@ if (!prefersReducedMotion && revealTargets.length) {
       observer.observe(element);
     });
   }
-}
-
-// Type the hero name once on page load.
-const nameFirst = document.getElementById("name-first");
-const nameLast = document.getElementById("name-last");
-
-if (!prefersReducedMotion && nameFirst && nameLast) {
-  const firstName = nameFirst.textContent;
-  const lastName = nameLast.textContent;
-  nameFirst.textContent = "";
-  nameLast.textContent = "";
-  nameFirst.classList.add("typing-cursor");
-
-  let firstIndex = 0;
-  let lastIndex = 0;
-
-  const typeName = () => {
-    if (firstIndex < firstName.length) {
-      nameFirst.textContent += firstName.charAt(firstIndex++);
-      window.setTimeout(typeName, 105);
-      return;
-    }
-
-    if (nameFirst.classList.contains("typing-cursor")) {
-      nameFirst.classList.remove("typing-cursor");
-      nameLast.classList.add("typing-cursor");
-      window.setTimeout(typeName, 230);
-      return;
-    }
-
-    if (lastIndex < lastName.length) {
-      nameLast.textContent += lastName.charAt(lastIndex++);
-      window.setTimeout(typeName, 115);
-      return;
-    }
-
-    nameLast.classList.remove("typing-cursor");
-  };
-
-  window.setTimeout(typeName, 420);
 }
 
 // Subtle typewriter role rotation in the hero.
