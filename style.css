@@ -1624,3 +1624,76 @@ footer p, footer > small { color: #718b8b !important; }
   .stats { gap: 5px !important; }
   .stats small { font-size: 6.5px !important; }
 }
+
+
+/* Mobile-only: restore the three stat icons and prevent page-level sideways drift.
+   The Skills carousel keeps its own intentional horizontal swipe area. */
+@media (max-width: 760px) {
+  html {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: clip !important;
+  }
+  body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: clip !important;
+    position: relative !important;
+  }
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  img, video, canvas, svg {
+    max-width: 100%;
+  }
+  .wrap, header, main, section, footer {
+    max-width: 100% !important;
+  }
+  .stats {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 8px !important;
+    overflow: visible !important;
+  }
+  .stats > div {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    position: relative !important;
+    padding-top: 31px !important;
+  }
+  .stats > div::before {
+    display: block !important;
+    position: absolute !important;
+    content: "" !important;
+    width: 24px !important;
+    height: 24px !important;
+    left: 0 !important;
+    top: 0 !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: contain !important;
+    color: #079f96 !important;
+  }
+  .stats > div:nth-child(1)::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23079f96' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='7' width='18' height='14' rx='2'/%3E%3Cpath d='M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2'/%3E%3C/svg%3E") !important;
+  }
+  .stats > div:nth-child(2)::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23079f96' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m8 5-6 7 6 7M16 5l6 7-6 7M14 4l-4 16'/%3E%3C/svg%3E") !important;
+  }
+  .stats > div:nth-child(3)::before {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23079f96' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM20 8a4 4 0 0 1-3 3.87M18 15a4 4 0 0 1 4 4v2'/%3E%3C/svg%3E") !important;
+  }
+  .stats b {
+    display: block !important;
+    margin: 0 0 5px !important;
+  }
+
+  /* Keep horizontal overflow only inside the intentionally swipeable Skills row. */
+  #skills .cards {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overscroll-behavior-x: contain !important;
+  }
+}
