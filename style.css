@@ -187,20 +187,25 @@ html{scroll-behavior:smooth}
 }
 
 
-/* Hero name typewriter cursor */
-#name-first, #name-last{white-space:nowrap}
-#name-first.typing-cursor::after,
-#name-last.typing-cursor::after{
-  content:"";
-  display:inline-block;
-  width:2px;
-  height:.82em;
-  margin-left:4px;
-  vertical-align:-.04em;
-  background:#0b9d93;
-  animation:nameCaret .8s steps(2,start) infinite;
+
+
+/* Hero full-name typewriter cursor */
+#name-md, #name-mehedi, #name-hasan { white-space: nowrap; }
+#name-md.typing-cursor::after,
+#name-mehedi.typing-cursor::after,
+#name-hasan.typing-cursor::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: .82em;
+  margin-left: 4px;
+  vertical-align: -.04em;
+  background: #0b9d93;
+  animation: nameCaret .8s steps(2, start) infinite;
 }
-@keyframes nameCaret{to{visibility:hidden}}
-@media(prefers-reduced-motion:reduce){
-  #name-first.typing-cursor::after,#name-last.typing-cursor::after{animation:none}
+@keyframes nameCaret { to { visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) {
+  #name-md.typing-cursor::after,
+  #name-mehedi.typing-cursor::after,
+  #name-hasan.typing-cursor::after { animation: none; }
 }
