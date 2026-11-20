@@ -486,3 +486,29 @@ html{scroll-behavior:smooth}
     #skills .cards { scroll-behavior: auto !important; }
   }
 }
+
+
+/* Desktop Skills: fixed four-column layout; horizontal scrolling is mobile-only. */
+@media (min-width: 761px) {
+  #skills .cards {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 14px !important;
+    width: 100% !important;
+    overflow: visible !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+    white-space: normal !important;
+  }
+  #skills .cards > article {
+    display: block !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    flex: initial !important;
+  }
+  #skills .skills-marquee-track,
+  #skills .skills-marquee-progress {
+    display: none !important;
+  }
+}
