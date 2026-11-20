@@ -1266,3 +1266,57 @@ footer p, footer > small { color: #718b8b !important; }
   }
   #about .split { margin-top: 28px !important; }
 }
+
+
+/* Fine decorative details from the reference's portrait and lower corners. */
+@media (min-width: 761px) {
+  .portrait {
+    background:
+      radial-gradient(circle, rgba(7,159,150,.92) 1.8px, transparent 2.3px) 2% 4% / 90px 90px no-repeat,
+      radial-gradient(circle, rgba(7,159,150,.92) 1.8px, transparent 2.3px) 96% 91% / 90px 90px no-repeat !important;
+  }
+  .portrait .ring { position: absolute !important; }
+  .portrait .ring:before {
+    content: "";
+    position: absolute;
+    width: 510px;
+    height: 510px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%) rotate(-22deg);
+    border: 0;
+    border-right: 3px solid rgba(8,169,159,.75);
+    border-bottom: 3px solid rgba(8,169,159,.75);
+    border-radius: 50%;
+    clip-path: inset(46% 0 0 0);
+    pointer-events: none;
+  }
+  .portrait .ring:after {
+    content: "";
+    position: absolute;
+    width: 13px;
+    height: 13px;
+    right: -34px;
+    top: 58%;
+    border-radius: 50%;
+    background: #0ab4a9;
+    box-shadow: -495px 25px 0 -1px #0ab4a9;
+    pointer-events: none;
+  }
+  #about .split {
+    position: relative;
+  }
+  #about .split:after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    right: -11vw;
+    bottom: -105px;
+    width: 340px;
+    height: 235px;
+    background: linear-gradient(135deg,#65e1d5 0%,#12bdb1 65%,#079f96 100%);
+    border-radius: 100% 0 0 0 / 90% 0 0 0;
+    clip-path: polygon(100% 0,100% 100%,0 100%,28% 72%,48% 43%,72% 22%);
+    pointer-events: none;
+  }
+}
