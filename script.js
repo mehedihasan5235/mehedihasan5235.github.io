@@ -169,19 +169,18 @@ if (!prefersReducedMotion && revealTargets.length) {
 }
 
 
- // Continuous, seamless Skills marquee on desktop only. Mobile keeps a normal card list.
+// Mobile-only, continuous Skills autoplay carousel.
 const skillsViewport = document.querySelector("#skills .cards");
 if (skillsViewport) {
   const mobileSkills = window.matchMedia("(max-width: 760px)");
   const originalCards = Array.from(skillsViewport.querySelectorAll(":scope > article"));
 
-  if (mobileSkills.matches || prefersReducedMotion || originalCards.length < 2) {
+  if (!mobileSkills.matches || prefersReducedMotion || originalCards.length < 2) {
     skillsViewport.classList.add("skills-static-track");
   } else {
     const track = document.createElement("div");
     track.className = "skills-marquee-track";
     originalCards.forEach((card) => track.appendChild(card));
-
     originalCards.forEach((card) => {
       const clone = card.cloneNode(true);
       clone.setAttribute("aria-hidden", "true");
@@ -196,20 +195,14 @@ if (skillsViewport) {
     skillsViewport.insertAdjacentElement("afterend", progress);
     const progressFill = progress.querySelector("span");
 
-    let offset = 0;
-    let cycleWidth = 0;
-    let lastTime = 0;
-    let isPaused = false;
-    let isDragging = false;
-    let pointerStart = 0;
-    let offsetStart = 0;
-    const speed = 32;
+    let offset = 0, cycleWidth = 0, lastTime = 0;
+    let isPaused = false, isDragging = false, pointerStart = 0, offsetStart = 0;
+    const speed = 24;
 
     const render = () => {
       track.style.transform = "translate3d(" + (-offset) + "px, 0, 0)";
       if (cycleWidth > 0) progressFill.style.transform = "scaleX(" + (offset / cycleWidth) + ")";
     };
-
     const measure = () => {
       const firstClone = track.children[originalCards.length];
       if (firstClone) {
@@ -218,7 +211,6 @@ if (skillsViewport) {
         render();
       }
     };
-
     const animate = (time) => {
       if (!lastTime) lastTime = time;
       const delta = Math.min((time - lastTime) / 1000, 0.05);
@@ -230,11 +222,8 @@ if (skillsViewport) {
       window.requestAnimationFrame(animate);
     };
 
-    skillsViewport.addEventListener("mouseenter", () => { isPaused = true; });
-    skillsViewport.addEventListener("mouseleave", () => { isPaused = false; });
-    skillsViewport.addEventListener("focusin", () => { isPaused = true; });
-    skillsViewport.addEventListener("focusout", () => { isPaused = false; });
     skillsViewport.addEventListener("pointerdown", (event) => {
+      isPaused = true;
       isDragging = true;
       pointerStart = event.clientX;
       offsetStart = offset;
@@ -242,7 +231,7 @@ if (skillsViewport) {
       skillsViewport.setPointerCapture(event.pointerId);
     });
     skillsViewport.addEventListener("pointermove", (event) => {
-      if (!isDragging) return;
+      if (!isDragging || !cycleWidth) return;
       const distance = event.clientX - pointerStart;
       offset = ((offsetStart - distance) % cycleWidth + cycleWidth) % cycleWidth;
       render();
@@ -250,11 +239,14 @@ if (skillsViewport) {
     const endDrag = () => {
       if (!isDragging) return;
       isDragging = false;
+      isPaused = false;
       skillsViewport.classList.remove("is-dragging");
     };
     skillsViewport.addEventListener("pointerup", endDrag);
     skillsViewport.addEventListener("pointercancel", endDrag);
     skillsViewport.addEventListener("lostpointercapture", endDrag);
+    skillsViewport.addEventListener("mouseenter", () => { isPaused = true; });
+    skillsViewport.addEventListener("mouseleave", () => { if (!isDragging) isPaused = false; });
     document.addEventListener("visibilitychange", () => {
       lastTime = 0;
       isPaused = document.hidden;
