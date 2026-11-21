@@ -1714,3 +1714,39 @@ footer p, footer > small { color: #718b8b !important; }
   object-position: center 13% !important;
   border-radius: inherit !important;
 }
+
+
+/* Accessible English / Bangla language switch */
+header .language-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 62px;
+  min-height: 38px;
+  padding: 8px 13px;
+  border: 1px solid #8bd8d1;
+  border-radius: 24px;
+  background: #e8f8f5;
+  color: #087e79;
+  font: 700 12px "DM Sans", sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+header .language-toggle:hover {
+  background: #0aa99f;
+  border-color: #0aa99f;
+  color: #fff;
+  transform: translateY(-1px);
+}
+@media (max-width: 760px) {
+  header .language-toggle {
+    min-width: 54px;
+    min-height: 34px;
+    padding: 7px 10px;
+    margin-left: auto;
+    margin-right: 8px;
+    font-size: 11px;
+  }
+  header .toggle { flex: 0 0 auto; }
+}
