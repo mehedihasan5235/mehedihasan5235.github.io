@@ -249,39 +249,39 @@ if (skillsViewport) {
 const languageButton = document.getElementById("language-toggle");
 const roleHeading = document.querySelector(".hero .intro h3");
 const roleSets = {
-  en: ["Frontend Web Developer", "JavaScript Developer", "Web Application Developer", "Web Developer"],
-  bn: ["ফ্রন্টএন্ড ওয়েব ডেভেলপার", "জাভাস্ক্রিপ্ট ডেভেলপার", "ওয়েব অ্যাপ্লিকেশন ডেভেলপার", "ওয়েব ডেভেলপার"]
+  en: ["Web Developer", "Digital Marketing Specialist", "Meta Ads & SEO", "Social Media Marketer"],
+  bn: ["ওয়েব ডেভেলপার", "ডিজিটাল মার্কেটিং স্পেশালিস্ট", "মেটা অ্যাডস ও SEO", "সোশ্যাল মিডিয়া মার্কেটার"]
 };
 const translations = {
   "Home":"হোম","About":"আমার সম্পর্কে","Skills":"দক্ষতা","Experience":"অভিজ্ঞতা","Projects":"প্রজেক্ট","Contact":"যোগাযোগ",
   "Let's Talk ↗":"আলাপ করি ↗","WEB & DIGITAL PROFESSIONAL":"ওয়েব ও ডিজিটাল প্রফেশনাল",
   "●   OPEN TO OPPORTUNITIES":"●   কাজের সুযোগের জন্য উন্মুক্ত","Hello, I'm":"হ্যালো, আমি",
-  "Web Developer":"ওয়েব ডেভেলপার","Programming":"প্রোগ্রামিং","Web Applications":"ওয়েব অ্যাপ্লিকেশন",
+  "Web Developer":"ওয়েব ডেভেলপার","Digital Marketing Specialist":"ডিজিটাল মার্কেটিং স্পেশালিস্ট",
   "Explore My Work ↗":"আমার কাজ দেখুন ↗","Get in Touch":"যোগাযোগ করুন",
   "Years of Experience":"বছরের অভিজ্ঞতা","Development Focus":"ডেভেলপমেন্টে মনোযোগ","Curiosity to Learn":"শেখার আগ্রহ",
   "Creative mindset":"সৃজনশীল মানসিকতা","Always learning, always building":"সবসময় শিখছি, নতুন কিছু তৈরি করছি",
-  "01 / ABOUT ME":"০১ / আমার সম্পর্কে","Building for the web.":"ওয়েবের জন্য তৈরি করি।",
-  "Focused on clean code.":"পরিচ্ছন্ন কোডে মনোযোগী।",
-  "I’m MD Mehedi Hasan, a web developer focused on creating responsive, accessible and user-friendly websites and web applications. I enjoy solving problems through code, translating requirements into clear interfaces and building features that work smoothly across devices.":"আমি MD Mehedi Hasan। আমি রেসপনসিভ, সহজে ব্যবহারযোগ্য এবং সবার জন্য উপযোগী ওয়েবসাইট ও ওয়েব অ্যাপ্লিকেশন তৈরিতে মনোযোগী একজন ওয়েব ডেভেলপার। কোডের মাধ্যমে সমস্যা সমাধান, প্রয়োজন অনুযায়ী পরিষ্কার ইন্টারফেস তৈরি এবং বিভিন্ন ডিভাইসে সঠিকভাবে কাজ করে এমন ফিচার তৈরি করতে ভালোবাসি।",
-  "My primary focus is programming-led web development: building interfaces with HTML, CSS and JavaScript, working with modern frontend tools, and exploring application logic and backend technologies. I also use WordPress to develop and manage content-driven websites when it is the right fit for a project.":"আমার প্রধান কাজ প্রোগ্রামিংভিত্তিক ওয়েব ডেভেলপমেন্ট—HTML, CSS ও JavaScript দিয়ে ইন্টারফেস তৈরি, আধুনিক ফ্রন্টএন্ড টুল ব্যবহার এবং অ্যাপ্লিকেশন লজিক ও ব্যাকএন্ড প্রযুক্তি নিয়ে কাজ করা। প্রজেক্টের প্রয়োজন অনুযায়ী WordPress দিয়েও কনটেন্টভিত্তিক ওয়েবসাইট তৈরি ও পরিচালনা করি।",
-  "I approach each project with attention to structure, usability, performance and maintainable code. I value clear communication, thoughtful implementation and continuous improvement, and I’m always working to strengthen my skills through hands-on projects and learning.":"প্রতিটি প্রজেক্টে সঠিক কাঠামো, ব্যবহারযোগ্যতা, পারফরম্যান্স এবং সহজে রক্ষণাবেক্ষণযোগ্য কোডকে গুরুত্ব দিই। পরিষ্কার যোগাযোগ, পরিকল্পিত বাস্তবায়ন ও ধারাবাহিক উন্নতিতে বিশ্বাস করি। বাস্তব প্রজেক্ট ও শেখার মাধ্যমে নিয়মিত নিজের দক্ষতা বাড়ানোর চেষ্টা করি।",
+  "01 / ABOUT ME":"০১ / আমার সম্পর্কে","Technology meets creativity.":"প্রযুক্তি ও সৃজনশীলতার সমন্বয়।",
+  "Digital growth starts here.":"ডিজিটাল অগ্রযাত্রার শুরু এখানে।",
+  "I’m MD Mehedi Hasan, a Web Developer and Digital Marketing professional passionate about building useful digital experiences and helping businesses grow online. I enjoy turning ideas into responsive websites and creating strategies that help brands connect with the right audience.":"আমি MD Mehedi Hasan। আমি একজন ওয়েব ডেভেলপার ও ডিজিটাল মার্কেটিং প্রফেশনাল। কার্যকর ডিজিটাল অভিজ্ঞতা তৈরি এবং ব্যবসার অনলাইন প্রবৃদ্ধিতে সহায়তা করতে আগ্রহী। আইডিয়াকে রেসপনসিভ ওয়েবসাইটে রূপ দিতে এবং ব্র্যান্ডকে সঠিক অডিয়েন্সের কাছে পৌঁছাতে মার্কেটিং কৌশল তৈরি করতে ভালোবাসি।",
+  "On the development side, I work with frontend technologies, website functionality and WordPress solutions when they fit a project. Alongside that, I work with Facebook and Instagram advertising, audience targeting, campaign management, social media marketing and SEO to improve online visibility and reach potential customers.":"ওয়েব ডেভেলপমেন্টের ক্ষেত্রে আমি ফ্রন্টএন্ড প্রযুক্তি, ওয়েবসাইটের কার্যকারিতা এবং প্রজেক্ট অনুযায়ী WordPress নিয়ে কাজ করি। পাশাপাশি অনলাইনে দৃশ্যমানতা বাড়ানো ও সম্ভাব্য গ্রাহকের কাছে পৌঁছাতে Facebook ও Instagram বিজ্ঞাপন, অডিয়েন্স টার্গেটিং, ক্যাম্পেইন ম্যানেজমেন্ট, সোশ্যাল মিডিয়া মার্কেটিং এবং SEO নিয়ে কাজ করি।",
+  "I believe a strong digital presence needs both a well-built website and an effective marketing strategy. I focus on usability, clear communication, audience understanding and continuous improvement while developing my skills through practical projects and hands-on work.":"আমি বিশ্বাস করি, শক্তিশালী ডিজিটাল উপস্থিতির জন্য ভালোভাবে তৈরি ওয়েবসাইটের পাশাপাশি কার্যকর মার্কেটিং কৌশলও প্রয়োজন। ব্যবহারযোগ্যতা, পরিষ্কার যোগাযোগ, অডিয়েন্সকে বোঝা এবং ধারাবাহিক উন্নতিতে গুরুত্ব দিই। বাস্তব প্রজেক্ট ও হাতে-কলমে কাজের মাধ্যমে দক্ষতা বাড়াচ্ছি।",
   "02 / MY TOOLKIT":"০২ / আমার দক্ষতা","Skills &":"দক্ষতা ও","Technologies":"প্রযুক্তি",
-  "Technologies and tools I use to develop responsive websites and web applications.":"রেসপনসিভ ওয়েবসাইট ও ওয়েব অ্যাপ্লিকেশন তৈরিতে ব্যবহৃত প্রযুক্তি ও টুলস।",
+  "My core development technologies are shown below. I also work across Meta Ads, audience targeting, campaign management, social media marketing and SEO.":"আমার মূল ওয়েব ডেভেলপমেন্ট প্রযুক্তিগুলো নিচে দেওয়া হলো। পাশাপাশি Meta Ads, অডিয়েন্স টার্গেটিং, ক্যাম্পেইন ম্যানেজমেন্ট, সোশ্যাল মিডিয়া মার্কেটিং এবং SEO নিয়েও কাজ করি।",
   "Core Web Development":"মূল ওয়েব ডেভেলপমেন্ট","Building responsive, accessible interfaces with strong web fundamentals.":"ওয়েবের মৌলিক বিষয় কাজে লাগিয়ে রেসপনসিভ ও সহজে ব্যবহারযোগ্য ইন্টারফেস তৈরি।",
   "Frontend Development":"ফ্রন্টএন্ড ডেভেলপমেন্ট","Creating interactive user interfaces with modern JavaScript frameworks and styling tools.":"আধুনিক JavaScript ফ্রেমওয়ার্ক ও স্টাইলিং টুল দিয়ে ইন্টারঅ্যাকটিভ ইউজার ইন্টারফেস তৈরি।",
   "Backend & Development Tools":"ব্যাকএন্ড ও ডেভেলপমেন্ট টুলস","Working with server-side technologies, frameworks and version control.":"সার্ভার-সাইড প্রযুক্তি, ফ্রেমওয়ার্ক ও ভার্সন কন্ট্রোল নিয়ে কাজ।",
   "WordPress & CMS":"WordPress ও CMS","Building and managing content-driven websites with flexible CMS tools.":"বিভিন্ন CMS টুল ব্যবহার করে কনটেন্টভিত্তিক ওয়েবসাইট তৈরি ও পরিচালনা।",
   "Theme Customization":"থিম কাস্টমাইজেশন","Website Management":"ওয়েবসাইট পরিচালনা","SEO Basics":"SEO-এর প্রাথমিক বিষয়",
-  "I continuously expand my toolkit through practical development, experimentation and ongoing learning.":"বাস্তব ডেভেলপমেন্ট, পরীক্ষা-নিরীক্ষা ও নিয়মিত শেখার মাধ্যমে নিজের দক্ষতা ও টুলসের পরিধি বাড়াচ্ছি।",
+  "Alongside web development, I apply digital marketing skills across Facebook and Instagram Ads, audience targeting, campaign management, social media marketing and SEO.":"ওয়েব ডেভেলপমেন্টের পাশাপাশি Facebook ও Instagram Ads, অডিয়েন্স টার্গেটিং, ক্যাম্পেইন ম্যানেজমেন্ট, সোশ্যাল মিডিয়া মার্কেটিং এবং SEO-তে আমার দক্ষতা কাজে লাগাই।",
   "03 / EXPERIENCE":"০৩ / অভিজ্ঞতা","Continuous hands-on development":"নিয়মিত হাতে-কলমে কাজ ও দক্ষতা উন্নয়ন",
-  "Strengthening my web development skills through practical projects, experimentation and consistent learning.":"বাস্তব প্রজেক্ট, পরীক্ষা-নিরীক্ষা ও নিয়মিত শেখার মাধ্যমে ওয়েব ডেভেলপমেন্টের দক্ষতা বাড়াচ্ছি।",
+  "Building practical experience across website development, social media marketing, Meta advertising campaigns, audience research and SEO.":"ওয়েবসাইট ডেভেলপমেন্ট, সোশ্যাল মিডিয়া মার্কেটিং, Meta বিজ্ঞাপন ক্যাম্পেইন, অডিয়েন্স রিসার্চ এবং SEO-তে বাস্তব অভিজ্ঞতা তৈরি করছি।",
   "GROWTH":"উন্নতি","IN PROGRESS":"চলমান",
   "04 / SELECTED WORK":"০৪ / নির্বাচিত কাজ","Projects &":"প্রজেক্ট ও","Experiments":"পরীক্ষামূলক কাজ",
-  "A space for selected projects, ideas and things I build along the way.":"আমার নির্বাচিত প্রজেক্ট, আইডিয়া এবং তৈরি করা কাজের সংগ্রহ।",
-  "More work coming soon":"আরও কাজ শিগগিরই যুক্ত হবে","Project details and live links will be added here as the portfolio is updated.":"পোর্টফোলিও আপডেটের সঙ্গে প্রজেক্টের বিস্তারিত ও লাইভ লিংক এখানে যুক্ত করা হবে।",
+  "Selected work across web development and digital marketing, including website projects, social media campaigns and SEO activities.":"ওয়েব ডেভেলপমেন্ট ও ডিজিটাল মার্কেটিংয়ের নির্বাচিত কাজ—যেমন ওয়েবসাইট প্রজেক্ট, সোশ্যাল মিডিয়া ক্যাম্পেইন এবং SEO কার্যক্রম।",
+  "Web Development & Digital Marketing":"ওয়েব ডেভেলপমেন্ট ও ডিজিটাল মার্কেটিং","Selected website projects, Meta Ads campaigns, social media creatives and SEO work will be showcased here as they are ready.":"নির্বাচিত ওয়েবসাইট প্রজেক্ট, Meta Ads ক্যাম্পেইন, সোশ্যাল মিডিয়া ক্রিয়েটিভ এবং SEO-এর কাজ প্রস্তুত হলে এখানে দেখানো হবে।",
   "CONTACT ME":"যোগাযোগ করুন","05 / LET’S TALK":"০৫ / কথা বলি",
   "Have an idea?":"কোনো আইডিয়া আছে?","Let’s make it happen.":"চলুন বাস্তবায়ন করি।",
-  "Whether you’re planning a website, looking for digital support, or simply want to connect, I’d be happy to hear from you. Tell me a little about what you have in mind.":"আপনি কি ওয়েবসাইট তৈরি করতে চান, ডিজিটাল সহায়তা খুঁজছেন, নাকি যোগাযোগ করতে চান? আপনার পরিকল্পনা সম্পর্কে আমাকে জানান—আপনার কথা শুনতে ভালো লাগবে।",
+  "Whether you need a professional website or support with digital marketing, I can help you build your online presence. Let’s discuss your goals and explore the right digital solution for your business.":"আপনার কি একটি প্রফেশনাল ওয়েবসাইট প্রয়োজন, নাকি ডিজিটাল মার্কেটিংয়ে সহায়তা চান? আপনার অনলাইন উপস্থিতি গড়ে তুলতে আমি সহায়তা করতে পারি। আপনার লক্ষ্য নিয়ে আলোচনা করে ব্যবসার জন্য উপযুক্ত ডিজিটাল সমাধান খুঁজে নেওয়া যাক।",
   "QUICK RESPONSE":"দ্রুত উত্তর","Start a WhatsApp Conversation":"WhatsApp-এ কথা বলুন",
   "Open to new connections and opportunities":"নতুন যোগাযোগ ও কাজের সুযোগের জন্য উন্মুক্ত",
   "DIRECT CONTACT":"সরাসরি যোগাযোগ","Let’s connect":"যোগাযোগ করি","EMAIL ME":"ইমেইল করুন",
@@ -289,8 +289,8 @@ const translations = {
   "Designed with purpose. Built with curiosity.":"উদ্দেশ্য নিয়ে ডিজাইন, জানার আগ্রহে নির্মাণ।",
   "PERSONAL PORTFOLIO":"ব্যক্তিগত পোর্টফোলিও"
 };
-const originalDescription = "MD Mehedi Hasan — Web Developer focused on programming, frontend development and building responsive web applications.";
-const bengaliDescription = "MD Mehedi Hasan — ওয়েব ডেভেলপার ও ডিজিটাল মার্কেটিং প্রফেশনাল। ওয়েবসাইট তৈরি, ডিজিটাল মার্কেটিং ও SEO-তে কাজ করি।";
+const originalDescription = "MD Mehedi Hasan — Web Developer & Digital Marketing Specialist focused on responsive websites, Meta Ads, social media marketing and SEO.";
+const bengaliDescription = "MD Mehedi Hasan — ওয়েব ডেভেলপার ও ডিজিটাল মার্কেটিং প্রফেশনাল। রেসপনসিভ ওয়েবসাইট, Meta Ads, সোশ্যাল মিডিয়া মার্কেটিং ও SEO নিয়ে কাজ করি।";
 let portfolioLanguage = "en";
 let activeRoles = roleSets.en;
 let roleIndex = 0;
@@ -351,7 +351,7 @@ function setPortfolioLanguage(language) {
     const roleText = document.getElementById("role-text");
     const suffix = document.getElementById("role-suffix");
     if (roleText) roleText.textContent = activeRoles[0];
-    if (suffix) suffix.textContent = toBengali ? "প্রোগ্রামিং ও ওয়েব অ্যাপ্লিকেশন" : "Programming & Web Applications";
+    if (suffix) suffix.textContent = toBengali ? "ওয়েব ডেভেলপমেন্ট ও ডিজিটাল মার্কেটিং" : "Web Development & Digital Marketing";
   }
 }
 
