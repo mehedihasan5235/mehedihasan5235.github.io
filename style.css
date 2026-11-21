@@ -1750,3 +1750,9 @@ header .language-toggle:hover {
   }
   header .toggle { flex: 0 0 auto; }
 }
+
+
+/* Five balanced skill cards on desktop, retaining existing tablet/mobile behavior. */
+@media (min-width: 1001px) {
+  #skills .cards { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+}
