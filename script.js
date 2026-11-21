@@ -178,14 +178,18 @@ if (skillsViewport) {
     const track = document.createElement("div");
     track.className = "skills-marquee-track";
 
-    // Keep the five real cards first, followed immediately by one identical loop set.
+    // Keep the five real cards first, followed immediately by repeated loop sets.
+    // More than one duplicate set may be needed when the viewport is wider than one card cycle.
     originalCards.forEach((card) => track.appendChild(card));
-    originalCards.forEach((card) => {
-      const clone = card.cloneNode(true);
-      clone.setAttribute("aria-hidden", "true");
-      clone.querySelectorAll("[id]").forEach((node) => node.removeAttribute("id"));
-      track.appendChild(clone);
-    });
+    const appendCloneSet = () => {
+      originalCards.forEach((card) => {
+        const clone = card.cloneNode(true);
+        clone.setAttribute("aria-hidden", "true");
+        clone.querySelectorAll("[id]").forEach((node) => node.removeAttribute("id"));
+        track.appendChild(clone);
+      });
+    };
+    appendCloneSet();
     skillsViewport.appendChild(track);
 
     let cycleWidth = 0;
@@ -210,11 +214,16 @@ if (skillsViewport) {
       const firstClone = track.children[originalCards.length];
       if (!firstCard || !firstClone) return;
 
-      // Distance between card one and its duplicate equals the complete five-card set.
-      const measured = firstClone.getBoundingClientRect().left -
-        firstCard.getBoundingClientRect().left;
+      // offsetLeft gives the exact first-set width, including every inter-card gap.
+      const measured = firstClone.offsetLeft - firstCard.offsetLeft;
       if (Number.isFinite(measured) && measured > 0) {
         cycleWidth = measured;
+
+        // Fill the visible viewport plus one full cycle with duplicate cards.
+        // This prevents any empty strip appearing near the loop boundary on wide screens.
+        const requiredWidth = skillsViewport.clientWidth + cycleWidth;
+        while (track.scrollWidth < requiredWidth) appendCloneSet();
+
         offset = normalizeOffset(offset);
         render();
       }
