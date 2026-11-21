@@ -175,7 +175,7 @@ if (skillsViewport) {
   const mobileSkills = window.matchMedia("(max-width: 760px)");
   const originalCards = Array.from(skillsViewport.querySelectorAll(":scope > article"));
 
-  if (!mobileSkills.matches || originalCards.length < 2) {
+  if (originalCards.length < 2) {
     skillsViewport.classList.add("skills-static-track");
   } else {
     const track = document.createElement("div");
