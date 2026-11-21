@@ -169,10 +169,9 @@ if (!prefersReducedMotion && revealTargets.length) {
 }
 
 
-// Mobile-only Skills carousel using native horizontal scrolling.
+// Responsive Skills marquee: continuous right-to-left loop on desktop and mobile.
 const skillsViewport = document.querySelector("#skills .cards");
 if (skillsViewport) {
-  const mobileSkills = window.matchMedia("(max-width: 760px)");
   const originalCards = Array.from(skillsViewport.querySelectorAll(":scope > article"));
 
   if (originalCards.length < 2) {
@@ -180,10 +179,13 @@ if (skillsViewport) {
   } else {
     const track = document.createElement("div");
     track.className = "skills-marquee-track";
+
+    // Keep the original five cards intact, then add one matching set for a seamless loop.
     originalCards.forEach((card) => track.appendChild(card));
     originalCards.forEach((card) => {
       const clone = card.cloneNode(true);
       clone.setAttribute("aria-hidden", "true");
+      clone.querySelectorAll("[id]").forEach((node) => node.removeAttribute("id"));
       track.appendChild(clone);
     });
     skillsViewport.appendChild(track);
@@ -191,40 +193,45 @@ if (skillsViewport) {
     const progress = document.createElement("div");
     progress.className = "skills-marquee-progress";
     progress.setAttribute("aria-hidden", "true");
-    progress.innerHTML = '<span></span>';
+    progress.innerHTML = "<span></span>";
     skillsViewport.insertAdjacentElement("afterend", progress);
     const progressFill = progress.querySelector("span");
 
     let cycleWidth = 0;
     let lastTime = 0;
-    let isPaused = false;
-    const speed = 28;
+    let isInteracting = false;
+    const speed = 34; // pixels per second; same direction and behavior on every screen size.
 
     const updateProgress = () => {
-      const progressValue = cycleWidth > 0 ? Math.min(skillsViewport.scrollLeft / cycleWidth, 1) : 0;
-      progressFill.style.transform = "scaleX(" + progressValue + ")";
+      if (!progressFill || !cycleWidth) return;
+      const value = Math.min(skillsViewport.scrollLeft / cycleWidth, 1);
+      progressFill.style.transform = "scaleX(" + value + ")";
     };
+
     const measure = () => {
       const firstCard = track.children[0];
       const firstClone = track.children[originalCards.length];
-      if (firstCard && firstClone) {
-        // Measure the real visual distance between the first card and its clone.
-        // getBoundingClientRect is reliable even when cards have different offset parents.
-        const firstRect = firstCard.getBoundingClientRect();
-        const cloneRect = firstClone.getBoundingClientRect();
-        const measuredWidth = cloneRect.left - firstRect.left;
-        cycleWidth = measuredWidth > 0
-          ? measuredWidth
-          : track.scrollWidth / 2;
-        updateProgress();
+      if (!firstCard || !firstClone) return;
+
+      const distance = firstClone.getBoundingClientRect().left -
+        firstCard.getBoundingClientRect().left;
+      cycleWidth = distance > 0 ? distance : track.scrollWidth / 2;
+
+      // Keep the scroll position inside the first cycle after responsive re-measurement.
+      if (cycleWidth > 0 && skillsViewport.scrollLeft >= cycleWidth) {
+        skillsViewport.scrollLeft %= cycleWidth;
       }
+      updateProgress();
     };
+
     const animate = (time) => {
       if (!lastTime) lastTime = time;
       const delta = Math.min((time - lastTime) / 1000, 0.05);
       lastTime = time;
 
-      if (!isPaused && !document.hidden && cycleWidth > 0) {
+      // Hover never pauses the marquee. Only a deliberate touch/pen gesture temporarily
+      // yields control so the visitor can swipe naturally; autoplay resumes on release.
+      if (!prefersReducedMotion && !isInteracting && !document.hidden && cycleWidth > 0) {
         skillsViewport.scrollLeft += speed * delta;
         if (skillsViewport.scrollLeft >= cycleWidth) {
           skillsViewport.scrollLeft -= cycleWidth;
@@ -235,14 +242,17 @@ if (skillsViewport) {
     };
 
     skillsViewport.addEventListener("scroll", updateProgress, { passive: true });
-    skillsViewport.addEventListener("touchstart", () => { isPaused = true; }, { passive: true });
-    skillsViewport.addEventListener("touchend", () => { isPaused = false; }, { passive: true });
-    skillsViewport.addEventListener("touchcancel", () => { isPaused = false; }, { passive: true });
-    skillsViewport.addEventListener("pointerdown", () => { isPaused = true; });
-    window.addEventListener("pointerup", () => { isPaused = false; });
-    window.addEventListener("pointercancel", () => { isPaused = false; });
-    // Keep autoplay running while the pointer rests over the cards.
-    // Pause only during an intentional touch/drag interaction.
+    skillsViewport.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "touch" || event.pointerType === "pen") {
+        isInteracting = true;
+      }
+    }, { passive: true });
+    window.addEventListener("pointerup", () => { isInteracting = false; });
+    window.addEventListener("pointercancel", () => { isInteracting = false; });
+    // Fallback for browsers that dispatch touch events without Pointer Events.
+    skillsViewport.addEventListener("touchstart", () => { isInteracting = true; }, { passive: true });
+    skillsViewport.addEventListener("touchend", () => { isInteracting = false; }, { passive: true });
+    skillsViewport.addEventListener("touchcancel", () => { isInteracting = false; }, { passive: true });
     document.addEventListener("visibilitychange", () => { lastTime = 0; });
 
     measure();
