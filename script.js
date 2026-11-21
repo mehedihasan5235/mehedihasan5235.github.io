@@ -205,9 +205,17 @@ if (skillsViewport) {
       progressFill.style.transform = "scaleX(" + progressValue + ")";
     };
     const measure = () => {
+      const firstCard = track.children[0];
       const firstClone = track.children[originalCards.length];
-      if (firstClone) {
-        cycleWidth = firstClone.offsetLeft - track.children[0].offsetLeft;
+      if (firstCard && firstClone) {
+        // Measure the real visual distance between the first card and its clone.
+        // getBoundingClientRect is reliable even when cards have different offset parents.
+        const firstRect = firstCard.getBoundingClientRect();
+        const cloneRect = firstClone.getBoundingClientRect();
+        const measuredWidth = cloneRect.left - firstRect.left;
+        cycleWidth = measuredWidth > 0
+          ? measuredWidth
+          : track.scrollWidth / 2;
         updateProgress();
       }
     };
@@ -238,9 +246,19 @@ if (skillsViewport) {
     document.addEventListener("visibilitychange", () => { lastTime = 0; });
 
     measure();
-    if ("ResizeObserver" in window) new ResizeObserver(measure).observe(skillsViewport);
-    else window.addEventListener("resize", measure);
-    window.requestAnimationFrame(animate);
+    if ("ResizeObserver" in window) {
+      const skillsResizeObserver = new ResizeObserver(measure);
+      skillsResizeObserver.observe(skillsViewport);
+      skillsResizeObserver.observe(track);
+    } else {
+      window.addEventListener("resize", measure);
+    }
+    window.addEventListener("load", measure, { once: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+    window.requestAnimationFrame(() => {
+      measure();
+      window.requestAnimationFrame(animate);
+    });
   }
 }
 
