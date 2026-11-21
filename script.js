@@ -241,8 +241,8 @@ if (skillsViewport) {
     skillsViewport.addEventListener("pointerdown", () => { isPaused = true; });
     window.addEventListener("pointerup", () => { isPaused = false; });
     window.addEventListener("pointercancel", () => { isPaused = false; });
-    skillsViewport.addEventListener("mouseenter", () => { isPaused = true; });
-    skillsViewport.addEventListener("mouseleave", () => { isPaused = false; });
+    // Keep autoplay running while the pointer rests over the cards.
+    // Pause only during an intentional touch/drag interaction.
     document.addEventListener("visibilitychange", () => { lastTime = 0; });
 
     measure();
