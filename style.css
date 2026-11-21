@@ -2059,3 +2059,15 @@ header .language-toggle:hover {
     max-width: min(82vw, 310px) !important;
   }
 }
+
+
+/* Skills marquee final interaction: autoplay always runs and supports mouse/finger drag. */
+#skills .cards {
+  cursor: grab !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  touch-action: pan-y !important;
+}
+#skills .cards.is-dragging { cursor: grabbing !important; }
+#skills .skills-marquee-track { transition: none !important; }
+#skills .skills-marquee-track img { -webkit-user-drag: none; }
