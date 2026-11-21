@@ -248,13 +248,13 @@ if (skillsViewport) {
 const roleHeading = document.querySelector(".hero .intro h3");
 if (roleHeading) {
   const roles = [
-    "Web Developer",
-    "WordPress Developer",
-    "Frontend Enthusiast",
-    "Digital Marketing Enthusiast"
+    "Frontend Web Developer",
+    "JavaScript Developer",
+    "Web Application Developer",
+    "Web Developer"
   ];
 
-  roleHeading.innerHTML = '<span id="role-text">Web Developer</span> <i>·</i> WordPress <i>·</i> Digital Marketing';
+  roleHeading.innerHTML = '<span id="role-text">Frontend Web Developer</span> <i>·</i> Programming & Web Applications';
   const roleText = document.getElementById("role-text");
 
   if (!prefersReducedMotion && roleText) {
