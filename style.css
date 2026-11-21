@@ -1809,3 +1809,82 @@ header .language-toggle:hover {
     max-width: min(82vw, 310px) !important;
   }
 }
+
+
+/* Repair Skills cards: keep the carousel horizontal, but restore each card's vertical content layout. */
+#skills .cards {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  white-space: normal !important;
+  scrollbar-width: none !important;
+  overscroll-behavior-x: contain !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+#skills .cards::-webkit-scrollbar { display: none !important; }
+#skills .skills-marquee-track {
+  display: flex !important;
+  flex-flow: row nowrap !important;
+  align-items: stretch !important;
+  width: max-content !important;
+  min-width: max-content !important;
+  gap: 14px !important;
+  transform: none !important;
+}
+#skills .skills-marquee-track > article {
+  display: block !important;
+  box-sizing: border-box !important;
+  flex: 0 0 340px !important;
+  width: 340px !important;
+  min-width: 340px !important;
+  max-width: 340px !important;
+  min-height: 220px !important;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+}
+#skills .skills-marquee-track > article > .symbol {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+#skills .skills-marquee-track > article > h3,
+#skills .skills-marquee-track > article > p {
+  display: block !important;
+  width: auto !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+}
+#skills .skills-marquee-track > article > .chips {
+  display: flex !important;
+  flex-flow: row wrap !important;
+  align-items: flex-start !important;
+  gap: 7px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+}
+#skills .skills-marquee-track > article > .chips > i {
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  max-width: 100% !important;
+  white-space: normal !important;
+}
+@media (max-width: 760px) {
+  #skills .cards {
+    display: block !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 3px 2px 14px !important;
+    touch-action: pan-x pan-y !important;
+  }
+  #skills .skills-marquee-track { gap: 13px !important; }
+  #skills .skills-marquee-track > article {
+    display: block !important;
+    flex: 0 0 min(82vw, 310px) !important;
+    width: min(82vw, 310px) !important;
+    min-width: min(82vw, 310px) !important;
+    max-width: min(82vw, 310px) !important;
+  }
+}
