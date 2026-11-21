@@ -206,16 +206,18 @@ if (skillsViewport) {
     };
 
     const render = () => {
-      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+      // CSS consumes this variable with !important, avoiding older transform:none overrides.
+      track.style.setProperty("--skills-marquee-offset", (-offset) + "px");
     };
 
     const measure = () => {
-      const firstCard = track.children[0];
-      const firstClone = track.children[originalCards.length];
-      if (!firstCard || !firstClone) return;
+      if (!track.children[originalCards.length]) return;
 
-      // offsetLeft gives the exact first-set width, including every inter-card gap.
-      const measured = firstClone.offsetLeft - firstCard.offsetLeft;
+      // Calculate the exact width of one complete five-card set, including its gaps.
+      const styles = window.getComputedStyle(track);
+      const gap = parseFloat(styles.columnGap || styles.gap) || 0;
+      const measured = originalCards.reduce((sum, card) => sum + card.getBoundingClientRect().width, 0) +
+        gap * originalCards.length;
       if (Number.isFinite(measured) && measured > 0) {
         cycleWidth = measured;
 
