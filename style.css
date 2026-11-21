@@ -1756,3 +1756,56 @@ header .language-toggle:hover {
 @media (min-width: 1001px) {
   #skills .cards { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
 }
+
+
+/* Skills cards: one continuous horizontal row with seamless auto-loop on desktop and mobile. */
+#skills .cards {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  white-space: nowrap !important;
+  scrollbar-width: none !important;
+  overscroll-behavior-x: contain !important;
+  -webkit-overflow-scrolling: touch;
+}
+#skills .cards::-webkit-scrollbar { display: none !important; }
+#skills .skills-marquee-track {
+  display: flex !important;
+  flex-flow: row nowrap !important;
+  align-items: stretch !important;
+  width: max-content !important;
+  min-width: max-content !important;
+  gap: 14px !important;
+  transform: none !important;
+}
+#skills .skills-marquee-track article {
+  display: flex !important;
+  flex: 0 0 340px !important;
+  width: 340px !important;
+  min-width: 340px !important;
+  max-width: 340px !important;
+  white-space: normal !important;
+}
+@media (max-width: 760px) {
+  #skills .cards {
+    display: block !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 3px 2px 16px !important;
+    margin: 0 !important;
+    touch-action: pan-x pan-y !important;
+  }
+  #skills .skills-marquee-track {
+    display: flex !important;
+    flex-flow: row nowrap !important;
+    gap: 13px !important;
+  }
+  #skills .skills-marquee-track article {
+    flex: 0 0 min(82vw, 310px) !important;
+    width: min(82vw, 310px) !important;
+    min-width: min(82vw, 310px) !important;
+    max-width: min(82vw, 310px) !important;
+  }
+}
