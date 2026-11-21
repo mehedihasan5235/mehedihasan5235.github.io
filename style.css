@@ -2071,3 +2071,17 @@ header .language-toggle:hover {
 #skills .cards.is-dragging { cursor: grabbing !important; }
 #skills .skills-marquee-track { transition: none !important; }
 #skills .skills-marquee-track img { -webkit-user-drag: none; }
+
+
+/* FINAL FIX: allow the marquee's live JS offset to override legacy transform reset rules. */
+#skills .skills-marquee-track {
+  transform: translate3d(var(--skills-marquee-offset, 0px), 0, 0) !important;
+  transition: none !important;
+  will-change: transform !important;
+}
+#skills .cards {
+  overflow: hidden !important;
+  cursor: grab !important;
+  touch-action: pan-y !important;
+}
+#skills .cards.is-dragging { cursor: grabbing !important; }
