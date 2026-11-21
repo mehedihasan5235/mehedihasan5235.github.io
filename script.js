@@ -169,18 +169,16 @@ if (!prefersReducedMotion && revealTargets.length) {
 }
 
 
-// Responsive Skills marquee: continuous right-to-left loop on desktop and mobile.
+// Skills marquee: seamless right-to-left loop on desktop and mobile.
 const skillsViewport = document.querySelector("#skills .cards");
 if (skillsViewport) {
   const originalCards = Array.from(skillsViewport.querySelectorAll(":scope > article"));
 
-  if (originalCards.length < 2) {
-    skillsViewport.classList.add("skills-static-track");
-  } else {
+  if (originalCards.length > 1) {
     const track = document.createElement("div");
     track.className = "skills-marquee-track";
 
-    // Keep the original five cards intact, then add one matching set for a seamless loop.
+    // Put the five original cards in one set and an identical set immediately after it.
     originalCards.forEach((card) => track.appendChild(card));
     originalCards.forEach((card) => {
       const clone = card.cloneNode(true);
@@ -190,38 +188,26 @@ if (skillsViewport) {
     });
     skillsViewport.appendChild(track);
 
-    const progress = document.createElement("div");
-    progress.className = "skills-marquee-progress";
-    progress.setAttribute("aria-hidden", "true");
-    progress.innerHTML = "<span></span>";
-    skillsViewport.insertAdjacentElement("afterend", progress);
-    const progressFill = progress.querySelector("span");
-
     let cycleWidth = 0;
+    let offset = 0;
     let lastTime = 0;
-    let isInteracting = false;
-    const speed = 34; // pixels per second; same direction and behavior on every screen size.
-
-    const updateProgress = () => {
-      if (!progressFill || !cycleWidth) return;
-      const value = Math.min(skillsViewport.scrollLeft / cycleWidth, 1);
-      progressFill.style.transform = "scaleX(" + value + ")";
-    };
+    let isHovered = false;
+    let isPressed = false;
+    const speed = 34; // pixels per second
 
     const measure = () => {
       const firstCard = track.children[0];
       const firstClone = track.children[originalCards.length];
       if (!firstCard || !firstClone) return;
 
-      const distance = firstClone.getBoundingClientRect().left -
+      // Exact distance from the first card to its duplicate: one complete five-card set.
+      cycleWidth = firstClone.getBoundingClientRect().left -
         firstCard.getBoundingClientRect().left;
-      cycleWidth = distance > 0 ? distance : track.scrollWidth / 2;
-
-      // Keep the scroll position inside the first cycle after responsive re-measurement.
-      if (cycleWidth > 0 && skillsViewport.scrollLeft >= cycleWidth) {
-        skillsViewport.scrollLeft %= cycleWidth;
+      if (!Number.isFinite(cycleWidth) || cycleWidth <= 0) {
+        cycleWidth = track.scrollWidth / 2;
       }
-      updateProgress();
+      if (cycleWidth > 0) offset %= cycleWidth;
+      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
     };
 
     const animate = (time) => {
@@ -229,37 +215,31 @@ if (skillsViewport) {
       const delta = Math.min((time - lastTime) / 1000, 0.05);
       lastTime = time;
 
-      // Hover never pauses the marquee. Only a deliberate touch/pen gesture temporarily
-      // yields control so the visitor can swipe naturally; autoplay resumes on release.
-      if (!prefersReducedMotion && !isInteracting && !document.hidden && cycleWidth > 0) {
-        skillsViewport.scrollLeft += speed * delta;
-        if (skillsViewport.scrollLeft >= cycleWidth) {
-          skillsViewport.scrollLeft -= cycleWidth;
-        }
-        updateProgress();
+      // Pause while the mouse is over the row or while a finger/mouse is holding it.
+      if (!prefersReducedMotion && !isHovered && !isPressed &&
+          !document.hidden && cycleWidth > 0) {
+        offset += speed * delta;
+        if (offset >= cycleWidth) offset -= cycleWidth;
+        track.style.transform = `translate3d(${-offset}px, 0, 0)`;
       }
       window.requestAnimationFrame(animate);
     };
 
-    skillsViewport.addEventListener("scroll", updateProgress, { passive: true });
-    skillsViewport.addEventListener("pointerdown", (event) => {
-      if (event.pointerType === "touch" || event.pointerType === "pen") {
-        isInteracting = true;
-      }
-    }, { passive: true });
-    window.addEventListener("pointerup", () => { isInteracting = false; });
-    window.addEventListener("pointercancel", () => { isInteracting = false; });
-    // Fallback for browsers that dispatch touch events without Pointer Events.
-    skillsViewport.addEventListener("touchstart", () => { isInteracting = true; }, { passive: true });
-    skillsViewport.addEventListener("touchend", () => { isInteracting = false; }, { passive: true });
-    skillsViewport.addEventListener("touchcancel", () => { isInteracting = false; }, { passive: true });
+    skillsViewport.addEventListener("mouseenter", () => { isHovered = true; });
+    skillsViewport.addEventListener("mouseleave", () => { isHovered = false; });
+    skillsViewport.addEventListener("pointerdown", () => { isPressed = true; });
+    window.addEventListener("pointerup", () => { isPressed = false; });
+    window.addEventListener("pointercancel", () => { isPressed = false; });
+    skillsViewport.addEventListener("touchstart", () => { isPressed = true; }, { passive: true });
+    skillsViewport.addEventListener("touchend", () => { isPressed = false; }, { passive: true });
+    skillsViewport.addEventListener("touchcancel", () => { isPressed = false; }, { passive: true });
     document.addEventListener("visibilitychange", () => { lastTime = 0; });
 
     measure();
     if ("ResizeObserver" in window) {
-      const skillsResizeObserver = new ResizeObserver(measure);
-      skillsResizeObserver.observe(skillsViewport);
-      skillsResizeObserver.observe(track);
+      const observer = new ResizeObserver(measure);
+      observer.observe(skillsViewport);
+      observer.observe(track);
     } else {
       window.addEventListener("resize", measure);
     }
