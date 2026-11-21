@@ -169,7 +169,7 @@ if (!prefersReducedMotion && revealTargets.length) {
 }
 
 
-// Skills marquee: seamless right-to-left loop on desktop and mobile.
+// Skills marquee: continuous right-to-left loop with mouse and touch dragging.
 const skillsViewport = document.querySelector("#skills .cards");
 if (skillsViewport) {
   const originalCards = Array.from(skillsViewport.querySelectorAll(":scope > article"));
@@ -178,7 +178,7 @@ if (skillsViewport) {
     const track = document.createElement("div");
     track.className = "skills-marquee-track";
 
-    // Put the five original cards in one set and an identical set immediately after it.
+    // Keep the five real cards first, followed immediately by one identical loop set.
     originalCards.forEach((card) => track.appendChild(card));
     originalCards.forEach((card) => {
       const clone = card.cloneNode(true);
@@ -191,23 +191,33 @@ if (skillsViewport) {
     let cycleWidth = 0;
     let offset = 0;
     let lastTime = 0;
-    let isHovered = false;
-    let isPressed = false;
-    const speed = 34; // pixels per second
+    let activePointerId = null;
+    let pointerStartX = 0;
+    let offsetAtPointerStart = 0;
+    const speed = 38; // pixels per second
+
+    const normalizeOffset = (value) => {
+      if (!cycleWidth) return 0;
+      return ((value % cycleWidth) + cycleWidth) % cycleWidth;
+    };
+
+    const render = () => {
+      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+    };
 
     const measure = () => {
       const firstCard = track.children[0];
       const firstClone = track.children[originalCards.length];
       if (!firstCard || !firstClone) return;
 
-      // Exact distance from the first card to its duplicate: one complete five-card set.
-      cycleWidth = firstClone.getBoundingClientRect().left -
+      // Distance between card one and its duplicate equals the complete five-card set.
+      const measured = firstClone.getBoundingClientRect().left -
         firstCard.getBoundingClientRect().left;
-      if (!Number.isFinite(cycleWidth) || cycleWidth <= 0) {
-        cycleWidth = track.scrollWidth / 2;
+      if (Number.isFinite(measured) && measured > 0) {
+        cycleWidth = measured;
+        offset = normalizeOffset(offset);
+        render();
       }
-      if (cycleWidth > 0) offset %= cycleWidth;
-      track.style.transform = `translate3d(${-offset}px, 0, 0)`;
     };
 
     const animate = (time) => {
@@ -215,26 +225,41 @@ if (skillsViewport) {
       const delta = Math.min((time - lastTime) / 1000, 0.05);
       lastTime = time;
 
-      // Pause while the mouse is over the row or while a finger/mouse is holding it.
-      if (!prefersReducedMotion && !isHovered && !isPressed &&
-          !document.hidden && cycleWidth > 0) {
-        offset += speed * delta;
-        if (offset >= cycleWidth) offset -= cycleWidth;
-        track.style.transform = `translate3d(${-offset}px, 0, 0)`;
+      if (activePointerId === null && !document.hidden && cycleWidth > 0) {
+        offset = normalizeOffset(offset + speed * delta);
+        render();
       }
       window.requestAnimationFrame(animate);
     };
 
-    skillsViewport.addEventListener("mouseenter", () => { isHovered = true; });
-    skillsViewport.addEventListener("mouseleave", () => { isHovered = false; });
-    skillsViewport.addEventListener("pointerdown", () => { isPressed = true; });
-    window.addEventListener("pointerup", () => { isPressed = false; });
-    window.addEventListener("pointercancel", () => { isPressed = false; });
-    skillsViewport.addEventListener("touchstart", () => { isPressed = true; }, { passive: true });
-    skillsViewport.addEventListener("touchend", () => { isPressed = false; }, { passive: true });
-    skillsViewport.addEventListener("touchcancel", () => { isPressed = false; }, { passive: true });
-    document.addEventListener("visibilitychange", () => { lastTime = 0; });
+    // Pointer Events support mouse dragging and finger swiping with the same code.
+    skillsViewport.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      activePointerId = event.pointerId;
+      pointerStartX = event.clientX;
+      offsetAtPointerStart = offset;
+      skillsViewport.classList.add("is-dragging");
+      skillsViewport.setPointerCapture(event.pointerId);
+      lastTime = 0;
+    });
 
+    skillsViewport.addEventListener("pointermove", (event) => {
+      if (event.pointerId !== activePointerId || !cycleWidth) return;
+      offset = normalizeOffset(offsetAtPointerStart + (pointerStartX - event.clientX));
+      render();
+    });
+
+    const finishPointer = (event) => {
+      if (event.pointerId !== activePointerId) return;
+      activePointerId = null;
+      skillsViewport.classList.remove("is-dragging");
+      lastTime = 0;
+    };
+    skillsViewport.addEventListener("pointerup", finishPointer);
+    skillsViewport.addEventListener("pointercancel", finishPointer);
+    skillsViewport.addEventListener("lostpointercapture", finishPointer);
+
+    document.addEventListener("visibilitychange", () => { lastTime = 0; });
     measure();
     if ("ResizeObserver" in window) {
       const observer = new ResizeObserver(measure);
@@ -251,7 +276,6 @@ if (skillsViewport) {
     });
   }
 }
-
 
 // Bilingual portfolio content and hero role rotation.
 const languageButton = document.getElementById("language-toggle");
